@@ -21,18 +21,20 @@ export function ExperienceGithub({ theme }) {
         <SectionTitle kicker="Featured" title="Github's Activity" />
       </AnimatedRow>
       <AnimatedRow containerClass="p-8 overflow-hidden" bottomBorder={false}>
-        <div className="w-full flex flex-col items-center max-w-full pb-2">
-          <GitHubCalendar 
-            username="YSF204" 
-            colorScheme={theme === 'dark' ? 'dark' : 'light'}
-            blockSize={10}
-            blockMargin={4}
-            fontSize={13}
-            theme={{
-              dark: ['#161616', '#2a0a0a', '#3d1111', '#5c1a1a', '#8b0000'],
-              light: ['#e8e0e0', '#d4b0b0', '#b06060', '#8b2020', '#6b0000'],
-            }}
-          />
+        <div className="w-full flex flex-col items-center max-w-full pb-2 overflow-x-hidden">
+          <div className="w-full overflow-hidden flex justify-center [&_article]:w-full [&_svg]:w-full [&_svg]:max-w-[700px] [&_svg]:h-auto">
+            <GitHubCalendar 
+              username="YSF204" 
+              colorScheme={theme === 'dark' ? 'dark' : 'light'}
+              blockSize={10}
+              blockMargin={4}
+              fontSize={13}
+              theme={{
+                dark: ['#161616', '#2a0a0a', '#3d1111', '#5c1a1a', '#8b0000'],
+                light: ['#e8e0e0', '#d4b0b0', '#b06060', '#8b2020', '#6b0000'],
+              }}
+            />
+          </div>
         </div>
       </AnimatedRow>
     </>

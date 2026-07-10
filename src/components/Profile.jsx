@@ -3,6 +3,8 @@ import { FaGithub, FaXTwitter, FaEnvelope, FaLinkedin, FaRegEye, FaPaperPlane, F
 import { SiNextdotjs, SiReact, SiTailwindcss, SiExpress, SiMongodb, SiPostgresql } from 'react-icons/si'
 import { MdVerified } from 'react-icons/md'
 import YousefImg from '../assets/Yousef.png'
+import RotatingText from './RotatingText'
+import PixelTransition from './PixelTransition'
 import Shuffle from './Shuffle'
 
 export function ProfileHeader({ theme, toggleTheme }) {
@@ -12,8 +14,21 @@ export function ProfileHeader({ theme, toggleTheme }) {
         <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
 
         <div className="flex items-center gap-4 relative z-10">
-          <div className="w-[82px] h-[82px] rounded-[14px] bg-white dark:bg-[#111] flex-shrink-0 p-[3px] shadow-sm">
-            <img src={YousefImg} alt="Yousef AL Bakri" className="w-full h-full object-cover rounded-[11px]" />
+          <div className="w-[82px] h-[120px] rounded-[14px] bg-white dark:bg-[#111] flex-shrink-0 p-[3px] shadow-sm relative">
+            <PixelTransition
+              firstContent={
+                <img src={YousefImg} alt="Yousef AL Bakri" className="w-full h-full object-cover rounded-[11px]" />
+              }
+              secondContent={
+                <div className="w-full h-full bg-[#8B0000] dark:bg-[#600000] rounded-[11px] flex items-center justify-center">
+                  <p className="font-bold text-white text-center text-[10px] leading-tight px-1">Booo !</p>
+                </div>
+              }
+              gridSize={7}
+              pixelColor={theme === 'dark' ? '#b06060' : '#8B0000'}
+              animationStepDuration={0.5}
+              className="w-full h-full rounded-[11px]"
+            />
           </div>
           <div className="flex-1">
             <h1 className="font-bold text-zinc-900 dark:text-zinc-100 text-[17px] flex items-center gap-1.5">
@@ -35,12 +50,21 @@ export function ProfileHeader({ theme, toggleTheme }) {
               /> <MdVerified className="text-zinc-400 dark:text-zinc-500" size={15} />
             </h1>
             <p className="text-[12px] mt-0.5 text-zinc-500 dark:text-[#a2a2ab]">@YSF204</p>
-            <div className="flex gap-2 mt-2.5">
-              {[FaEnvelope, FaXTwitter, FaGithub, FaLinkedin].map((Icon, i) => (
-                <a key={i} href="#" className="w-[26px] h-[26px] rounded-lg border border-dashed border-[#8B0000]/70 dark:border-[#600000] bg-white dark:bg-[#0d0d0f] flex items-center justify-center text-zinc-500 dark:text-[#7e7e89] hover:text-zinc-900 dark:hover:text-[#f3f3f3] transition-colors">
-                  <Icon size={11} />
-                </a>
-              ))}
+            <div className="flex items-center gap-2 mt-3 text-[16px] font-bold">
+              <span className="font-mono tracking-widest text-zinc-700 dark:text-zinc-300">YOUSEF</span>
+              <RotatingText
+                texts={['FULL STACK', 'FRONT END', 'BACKEND']}
+                mainClassName="overflow-hidden w-[120px] justify-center text-[#8B0000] dark:text-[#b06060] px-1 bg-zinc-100 dark:bg-[#1a1a1a] rounded-md border border-zinc-200 dark:border-zinc-800"
+                staggerFrom="random"
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                exit={{ y: "-120%" }}
+                staggerDuration={0.025}
+                splitLevelClassName="overflow-hidden"
+                transition={{ type: "spring", damping: 30, stiffness: 400 }}
+                rotationInterval={5000}
+              />
+              <span className="font-mono tracking-widest text-zinc-700 dark:text-zinc-300">DEV</span>
             </div>
           </div>
         </div>
