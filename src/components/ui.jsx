@@ -38,9 +38,12 @@ export function Row({ children, className = '', containerClass = '', dotPattern 
   )
 }
 
-export function SectionTitle({ title }) {
+export function SectionTitle({ title, kicker }) {
   return (
     <div className="w-full py-8 text-center flex flex-col items-center justify-center h-full">
+      {kicker && (
+        <p className="text-[12px] text-zinc-400 dark:text-[#84848f] font-medium tracking-wide mb-1">{kicker}</p>
+      )}
       <h2 className="text-[20px] font-bold tracking-tight text-zinc-900 dark:text-[#f3f3f3]">{title}</h2>
     </div>
   )

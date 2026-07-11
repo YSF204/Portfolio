@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { ProfileHeader } from './components/Profile'
-import { ProjectsSection, HackathonsSection } from './components/Projects'
+import { ProjectsSection } from './components/Projects'
 import { TopHeader } from './components/TopHeader'
 import { TechStack } from './components/TechStack'
 import { ExperienceGithub } from './components/ExperienceGithub'
@@ -10,7 +10,7 @@ import GradualBlur from './components/GradualBlur'
 import LineSidebar from './components/LineSidebar'
 import DotField from './components/DotField'
 
-const SECTIONS = ['overview', 'tech-stack', 'projects', 'hackathons', 'experience'];
+const SECTIONS = ['overview', 'tech-stack', 'projects', 'experience'];
 
 function App() {
   const [theme, setTheme] = useState(() => {
@@ -85,7 +85,7 @@ function App() {
         {/* Line Sidebar for Navigation */}
         <div className="fixed right-8 top-1/2 -translate-y-1/2 z-50 hidden xl:block">
           <LineSidebar
-            items={['Overview', 'Tech Stack', 'Projects', 'Hackathons', 'Experience']}
+            items={['Overview', 'Tech Stack', 'Projects', 'Experience']}
             accentColor="#8B0000"
             textColor={theme === 'dark' ? '#c4c4c4' : '#666'}
             markerColor="#8B0000"
@@ -123,13 +123,10 @@ function App() {
           <div id="projects" className="w-full flex flex-col items-center">
             <ProjectsSection />
           </div>
-          <div id="hackathons" className="w-full flex flex-col items-center">
-            <HackathonsSection />
-          </div>
           <div id="experience" className="w-full flex flex-col items-center">
             <ExperienceGithub theme={theme} />
           </div>
-          <Footer />
+          <Footer theme={theme} />
         </div>
 
         <GradualBlur

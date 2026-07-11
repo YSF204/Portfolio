@@ -5,7 +5,7 @@ A modern portfolio site built with React + Vite, featuring:
 - Dark and light mode toggle (saved in local storage)
 - Scroll progress bar + section reveal animations
 - Tech stack icons using `react-icons`
-- Project, hackathon, experience, and activity sections
+- Project, experience, and activity sections
 - Contact form connected to an Express backend API
 
 ## Run locally

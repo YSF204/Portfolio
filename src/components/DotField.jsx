@@ -23,9 +23,9 @@ const DotField = memo(({
   const svgRef = useRef(null);
   const glowRef = useRef(null);
   const dotsRef = useRef([]);
-  const mouseRef = useRef({ x: -9999, y: -9999, prevX: -9999, prevY: -9999, speed: 0 });
+  const mouseRef = useRef({ x: -9999, y: -9999, prevX: -9999, prevY: -9999, clientX: -9999, clientY: -9999, speed: 0 });
   const rafRef = useRef(null);
-  const sizeRef = useRef({ w: 0, h: 0, offsetX: 0, offsetY: 0 });
+  const sizeRef = useRef({ w: 0, h: 0 });
   const glowOpacity = useRef(0);
   const engagement = useRef(0);
   const propsRef = useRef({});
@@ -46,6 +46,13 @@ const DotField = memo(({
       resizeTimer = setTimeout(doResize, 100);
     }
 
+    function updateMouseCoords() {
+      if (mouseRef.current.clientX === -9999) return;
+      const rect = canvas.getBoundingClientRect();
+      mouseRef.current.x = mouseRef.current.clientX - rect.left;
+      mouseRef.current.y = mouseRef.current.clientY - rect.top;
+    }
+
     function doResize() {
       const rect = canvas.parentElement.getBoundingClientRect();
       const w = rect.width;
@@ -60,11 +67,10 @@ const DotField = memo(({
       sizeRef.current = {
         w,
         h,
-        offsetX: rect.left + window.scrollX,
-        offsetY: rect.top + window.scrollY,
       };
 
       buildDots(w, h);
+      updateMouseCoords();
     }
 
     function buildDots(w, h) {
@@ -88,9 +94,13 @@ const DotField = memo(({
     }
 
     function onMouseMove(e) {
-      const s = sizeRef.current;
-      mouseRef.current.x = e.pageX - s.offsetX;
-      mouseRef.current.y = e.pageY - s.offsetY;
+      mouseRef.current.clientX = e.clientX;
+      mouseRef.current.clientY = e.clientY;
+      updateMouseCoords();
+    }
+
+    function onScroll() {
+      updateMouseCoords();
     }
 
     function updateMouseSpeed() {
@@ -208,6 +218,7 @@ const DotField = memo(({
     doResize();
     window.addEventListener('resize', resize);
     window.addEventListener('mousemove', onMouseMove, { passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true });
     rafRef.current = requestAnimationFrame(tick);
 
     rebuildRef.current = () => {
@@ -221,8 +232,8 @@ const DotField = memo(({
       clearTimeout(resizeTimer);
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('scroll', onScroll);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

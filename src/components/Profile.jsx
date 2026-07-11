@@ -1,8 +1,9 @@
-import { AnimatedRow, Button, ThemeToggle } from './ui'
-import { FaGithub, FaXTwitter, FaEnvelope, FaLinkedin, FaRegEye, FaPaperPlane, FaFileLines } from 'react-icons/fa6'
+import { AnimatedRow, ThemeToggle } from './ui'
 import { SiNextdotjs, SiReact, SiTailwindcss, SiExpress, SiMongodb, SiPostgresql } from 'react-icons/si'
 import { MdVerified } from 'react-icons/md'
+import { PiLinkedinLogoLight, PiReadCvLogoThin, PiGithubLogoLight } from 'react-icons/pi'
 import YousefImg from '../assets/Yousef.png'
+import cvFile from '../assets/cv/Yousef-ALBakri.pdf'
 import RotatingText from './RotatingText'
 import PixelTransition from './PixelTransition'
 import Shuffle from './Shuffle'
@@ -51,10 +52,10 @@ export function ProfileHeader({ theme, toggleTheme }) {
             </h1>
             <p className="text-[12px] mt-0.5 text-zinc-500 dark:text-[#a2a2ab]">@YSF204</p>
             <div className="flex items-center gap-2 mt-3 text-[16px] font-bold">
-              <span className="font-mono tracking-widest text-zinc-700 dark:text-zinc-300">YOUSEF</span>
+              <span className="font-mono tracking-widest text-zinc-700 dark:text-zinc-300">Yousef is a </span>
               <RotatingText
-                texts={['FULL STACK', 'FRONT END', 'BACKEND']}
-                mainClassName="overflow-hidden w-[120px] justify-center text-[#8B0000] dark:text-[#b06060] px-1 bg-zinc-100 dark:bg-[#1a1a1a] rounded-md border border-zinc-200 dark:border-zinc-800"
+                texts={['FULL STACK', 'FRONTEND', 'BACKEND']}
+                mainClassName="overflow-hidden w-[120px] justify-center text-[#8B0000] dark:text-[#b06060] px-1 rounded-[6px] border border-dashed border-[#8B0000]/70 dark:border-[#600000]"
                 staggerFrom="random"
                 initial={{ y: "100%" }}
                 animate={{ y: 0 }}
@@ -62,7 +63,7 @@ export function ProfileHeader({ theme, toggleTheme }) {
                 staggerDuration={0.025}
                 splitLevelClassName="overflow-hidden"
                 transition={{ type: "spring", damping: 30, stiffness: 400 }}
-                rotationInterval={5000}
+                rotationInterval={3000}
               />
               <span className="font-mono tracking-widest text-zinc-700 dark:text-zinc-300">DEV</span>
             </div>
@@ -90,24 +91,23 @@ export function ProfileHeader({ theme, toggleTheme }) {
       </AnimatedRow>
 
       <AnimatedRow topBorder={false} bottomBorder={false}>
-        <div className="grid grid-cols-2 md:grid-cols-4 w-full relative">
+        <div className="grid grid-cols-3 w-full relative structural-divide-x">
           <div className="absolute top-0 left-0 w-full h-[1px] structural-dashed-t structural-grid z-10"></div>
-          <div className="absolute top-0 left-1/2 w-[1px] h-full structural-dashed-x hidden sm:block z-10"></div>
-          <div className="absolute top-0 left-1/4 w-[1px] h-full structural-dashed-x hidden md:block z-10"></div>
-          <div className="absolute top-0 left-3/4 w-[1px] h-full structural-dashed-x hidden md:block z-10"></div>
-          <div className="absolute top-1/2 left-0 w-full h-[1px] structural-dashed-b block md:hidden z-10"></div>
 
           <div className="flex items-center justify-center p-5 relative z-20">
-            <Button variant="ghost"><FaFileLines size={14} className="text-zinc-500 dark:text-[#a2a2ab]" /> Resume / CV</Button>
+            <a href={cvFile} download="Yousef-ALBakri.pdf" className="inline-flex items-center gap-2 text-zinc-600 dark:text-[#a2a2ab] text-[13px] font-medium transition-colors hover:text-zinc-900 dark:hover:text-white">
+              <PiReadCvLogoThin size={18} /> CV / Resume
+            </a>
           </div>
           <div className="flex items-center justify-center p-5 relative z-20">
-            <Button variant="ghost"><FaPaperPlane size={14} className="text-zinc-500 dark:text-[#a2a2ab]" /> Get in Touch</Button>
+            <a href="https://www.linkedin.com/in/yousefalbakri/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-zinc-600 dark:text-[#a2a2ab] text-[13px] font-medium transition-colors hover:text-zinc-900 dark:hover:text-white">
+              <PiLinkedinLogoLight size={18} /> LinkedIn
+            </a>
           </div>
           <div className="flex items-center justify-center p-5 relative z-20">
-            <Button variant="ghost"><FaEnvelope size={14} className="text-zinc-500 dark:text-[#a2a2ab]" /> Email</Button>
-          </div>
-          <div className="flex items-center justify-center p-5 relative z-20">
-            <Button variant="ghost"><FaXTwitter size={14} className="text-zinc-500 dark:text-[#a2a2ab]" /> Twitter DM</Button>
+            <a href="https://github.com/YSF204" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-zinc-600 dark:text-[#a2a2ab] text-[13px] font-medium transition-colors hover:text-zinc-900 dark:hover:text-white">
+              <PiGithubLogoLight size={18} /> GitHub
+            </a>
           </div>
         </div>
       </AnimatedRow>
