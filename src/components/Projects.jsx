@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { AnimatedRow, SectionTitle } from './ui'
 import { Globe, ArrowRight } from 'lucide-react'
 import {
@@ -5,6 +6,7 @@ import {
   SiTailwindcss, SiTypescript, SiJsonwebtokens, SiRedis,
   SiOpenai, SiClerk, SiElevenlabs, SiGooglegemini
 } from 'react-icons/si'
+import { ProjectModal } from './ProjectModal'
 
 import aicrsImg from '../assets/AICRS.png'
 import spokenPagesImg from '../assets/SpokenPages.png'
@@ -42,7 +44,7 @@ const TAG_ICONS = {
   'Vapi AI': <span className="text-[10px] font-bold text-[#00b4d8]">Vapi</span>,
 }
 
-/* ── 3 Projects ── */
+/* ── Projects data ── Add future projects here ── */
 const projects = [
   {
     title: 'AI-CRS',
@@ -71,7 +73,7 @@ const projects = [
 ]
 
 /* ── Single project card ── */
-function ProjectCard({ project }) {
+function ProjectCard({ project, onViewDetails }) {
   return (
     <div className="flex flex-col gap-4 p-6 group">
       {/* Screenshot Frame */}
@@ -91,10 +93,20 @@ function ProjectCard({ project }) {
           {project.title}
         </h3>
         <div className="flex items-center gap-2.5">
-          <a href={project.github} className="text-zinc-400 dark:text-[#7e7e89] hover:text-zinc-900 dark:hover:text-white transition-colors" aria-label="GitHub">
+          <a
+            href={project.github}
+            onClick={(e) => { if (!project.github || project.github === '#') e.preventDefault() }}
+            className="text-zinc-400 dark:text-[#7e7e89] hover:text-zinc-900 dark:hover:text-white transition-colors"
+            aria-label="GitHub"
+          >
             <GithubIcon size={15} />
           </a>
-          <a href={project.live} className="text-zinc-400 dark:text-[#7e7e89] hover:text-zinc-900 dark:hover:text-white transition-colors" aria-label="Live site">
+          <a
+            href={project.live}
+            onClick={(e) => { if (!project.live || project.live === '#') e.preventDefault() }}
+            className="text-zinc-400 dark:text-[#7e7e89] hover:text-zinc-900 dark:hover:text-white transition-colors"
+            aria-label="Live site"
+          >
             <Globe size={15} strokeWidth={1.5} />
           </a>
         </div>
@@ -118,15 +130,16 @@ function ProjectCard({ project }) {
         ))}
       </div>
 
-      {/* Status + View Details */}
+      {/* View Details button */}
       <div className="flex items-center justify-between mt-auto pt-1">
-        <a
-          href={project.live}
-          className="inline-flex items-center gap-1 text-[12px] font-medium text-zinc-400 dark:text-[#7e7e89] hover:text-zinc-900 dark:hover:text-white transition-colors group"
+        <button
+          type="button"
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); onViewDetails(project); }}
+          className="inline-flex items-center gap-1 text-[12px] font-medium text-zinc-400 dark:text-[#7e7e89] hover:text-zinc-900 dark:hover:text-white transition-colors group cursor-pointer"
         >
           View Details
           <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
-        </a>
+        </button>
       </div>
     </div>
   )
@@ -134,6 +147,8 @@ function ProjectCard({ project }) {
 
 /* ── Projects Section ── */
 export function ProjectsSection() {
+  const [openProject, setOpenProject] = useState(null)
+
   return (
     <>
       {/* Section header */}
@@ -150,8 +165,8 @@ export function ProjectsSection() {
 
           {/* ── Row 1 ── */}
           <div className="grid grid-cols-1 md:grid-cols-2 structural-divide-x">
-            <ProjectCard project={projects[0]} />
-            <ProjectCard project={projects[1]} />
+            <ProjectCard project={projects[0]} onViewDetails={setOpenProject} />
+            <ProjectCard project={projects[1]} onViewDetails={setOpenProject} />
           </div>
 
           {/* ── MIDDLE line (crosses vertical = + sign) ── */}
@@ -159,7 +174,7 @@ export function ProjectsSection() {
 
           {/* ── Row 2 ── */}
           <div className="grid grid-cols-1 md:grid-cols-2 structural-divide-x">
-            <ProjectCard project={projects[2]} />
+            <ProjectCard project={projects[2]} onViewDetails={setOpenProject} />
             <div className="hidden md:block" />
           </div>
 
@@ -168,6 +183,15 @@ export function ProjectsSection() {
 
         </div>
       </div>
+
+      {/* ── Project Details Modal ── */}
+      {openProject && (
+        <ProjectModal
+          key={openProject.title}
+          project={openProject}
+          onClose={() => setOpenProject(null)}
+        />
+      )}
     </>
   )
 }
