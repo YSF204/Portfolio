@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Monoton&family=Notable&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -19,6 +19,160 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   @apply bg-[#f8f8f9] dark:bg-[#0b0b0d] transition-colors duration-300;
+}
+
+.display-title {
+  font-family: 'Notable', 'Monoton', 'Geist Variable', 'Inter', sans-serif;
+  font-weight: 400;
+  letter-spacing: 0 !important;
+}
+
+/* The new theme grows outward from the toggle instead of cross-fading. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+}
+
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition: none !important;
+}
+
+.shipping-soon-frame {
+  container-type: inline-size;
+}
+
+.shipping-soon-word {
+  display: block;
+  width: 100%;
+  font-family: 'Notable', 'Monoton', 'Geist Variable', 'Inter', sans-serif;
+  font-size: clamp(1.05rem, 5.4vw, 3.1rem);
+  font-size: clamp(1.05rem, 6.5cqw, 3.1rem);
+  font-weight: 400;
+  letter-spacing: 0 !important;
+  color: transparent;
+  background-image: linear-gradient(90deg, #8b0000 0%, #18181b 46%, #8b0000 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 10px 28px rgba(139, 0, 0, 0.13);
+}
+
+.dark .shipping-soon-word {
+  background-image: linear-gradient(90deg, #ffffff 0%, #f4f4f5 48%, #ffffff 100%);
+  text-shadow: 0 10px 30px rgba(255, 255, 255, 0.08);
+}
+
+.shipping-soon-word:hover {
+  background-image: linear-gradient(90deg, #600000 0%, #000000 48%, #8b0000 100%);
+}
+
+.dark .shipping-soon-word:hover {
+  background-image: linear-gradient(90deg, #ffffff 0%, #ffffff 48%, #ffffff 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.01ms !important;
+  }
+
+  .theme-toggle-icon {
+    transition: none !important;
+  }
+}
+
+.kaizen-word {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition:
+    left 520ms cubic-bezier(0.16, 1, 0.3, 1),
+    top 520ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kaizen-card {
+  right: 5%;
+  top: 50%;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(28px, -50%) scale(0.96);
+  transition:
+    opacity 320ms ease,
+    transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kaizen-signature:hover .kaizen-word,
+.kaizen-signature:focus .kaizen-word {
+  left: 25%;
+}
+
+.kaizen-signature:hover .kaizen-foreground,
+.kaizen-signature:focus .kaizen-foreground {
+  color: #18181b;
+  transform: translate(0, 0);
+}
+
+.dark .kaizen-signature:hover .kaizen-foreground,
+.dark .kaizen-signature:focus .kaizen-foreground {
+  color: #f4f4f5;
+}
+
+.kaizen-signature:hover .kaizen-card,
+.kaizen-signature:focus .kaizen-card {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(0, -50%) scale(1);
+}
+
+@media (max-width: 640px) {
+  .kaizen-signature {
+    height: 390px;
+  }
+
+  .kaizen-word {
+    top: 47%;
+  }
+
+  .kaizen-card {
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    top: auto;
+    width: auto;
+    transform: translateY(20px) scale(0.97);
+  }
+
+  .kaizen-signature:hover .kaizen-word,
+  .kaizen-signature:focus .kaizen-word {
+    left: 50%;
+    top: 25%;
+    transform: translate(-50%, -50%) scale(0.68);
+  }
+
+  .kaizen-signature:hover .kaizen-card,
+  .kaizen-signature:focus .kaizen-card {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kaizen-word,
+  .kaizen-card,
+  .kaizen-foreground {
+    transition: none !important;
+  }
 }
 
 @layer utilities {

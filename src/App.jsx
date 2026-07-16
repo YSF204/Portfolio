@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { flushSync } from 'react-dom'
 import { ProfileHeader } from './components/Profile'
 import { ProjectsSection } from './components/Projects'
 import { TopHeader } from './components/TopHeader'
@@ -51,7 +52,58 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark')
+  const toggleTheme = (event) => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark'
+    const root = document.documentElement
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    if (!document.startViewTransition || reduceMotion) {
+      setTheme(nextTheme)
+      return
+    }
+
+    if (root.classList.contains('theme-transitioning')) return
+
+    const buttonBounds = event.currentTarget.getBoundingClientRect()
+    const originX = buttonBounds.left + buttonBounds.width / 2
+    const originY = buttonBounds.top + buttonBounds.height / 2
+    const radius = Math.hypot(
+      Math.max(originX, window.innerWidth - originX),
+      Math.max(originY, window.innerHeight - originY),
+    )
+
+    root.classList.add('theme-transitioning')
+
+    const transition = document.startViewTransition(() => {
+      root.classList.toggle('dark', nextTheme === 'dark')
+      localStorage.setItem('theme', nextTheme)
+      flushSync(() => setTheme(nextTheme))
+    })
+
+    transition.ready
+      .then(() => {
+        root.animate(
+          {
+            clipPath: [
+              `circle(0px at ${originX}px ${originY}px)`,
+              `circle(${radius}px at ${originX}px ${originY}px)`,
+            ],
+          },
+          {
+            duration: 720,
+            easing: 'cubic-bezier(0.76, 0, 0.24, 1)',
+            pseudoElement: '::view-transition-new(root)',
+          },
+        )
+      })
+      .catch(() => {})
+
+    transition.finished
+      .catch(() => {})
+      .finally(() => {
+        root.classList.remove('theme-transitioning')
+      })
+  }
 
   return (
     <ClickSpark

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion as Motion, useScroll, useTransform } from 'framer-motion'
 import { X, Globe, ArrowUpRight } from 'lucide-react'
 import {
   SiReact, SiNextdotjs, SiNodedotjs, SiExpress, SiMongodb,
@@ -67,7 +67,7 @@ function ScrollCard({ image, title, scrollRef }) {
         style={{ perspective: '1200px' }}
       >
         {/* Title slides up and fades as you scroll */}
-        <motion.div
+        <Motion.div
           style={{ y: titleY, opacity: titleOp }}
           className="text-center mb-8 px-6 z-10"
         >
@@ -80,10 +80,10 @@ function ScrollCard({ image, title, scrollRef }) {
           <p className="mt-2 text-[12px] text-zinc-400 dark:text-[#84848f]">
             Scroll to explore ↓
           </p>
-        </motion.div>
+        </Motion.div>
 
         {/* Monitor frame — starts tilted, flattens on scroll */}
-        <motion.div
+        <Motion.div
           style={{
             rotateX,
             scale,
@@ -101,7 +101,7 @@ function ScrollCard({ image, title, scrollRef }) {
               draggable={false}
             />
           </div>
-        </motion.div>
+        </Motion.div>
       </div>
     </div>
   )
@@ -113,6 +113,20 @@ function ScrollCard({ image, title, scrollRef }) {
 ───────────────────────────────────────────── */
 export function ProjectModal({ project, onClose }) {
   const scrollRef = useRef(null)
+  const projectSlug = project.title.replace(/\s+/g, '-').toLowerCase()
+  const caseStudySections = [
+    {
+      id: 'overview',
+      label: 'Overview',
+      title: 'What I built',
+      body: project.description,
+    },
+    ...(project.sections ?? []).map((section, index) => ({
+      ...section,
+      id: section.id ?? `section-${index + 2}`,
+      label: section.label ?? section.title ?? `Section ${index + 2}`,
+    })),
+  ]
 
   /* Lock scroll on BOTH html and body while modal is open */
   useEffect(() => {
@@ -144,19 +158,13 @@ export function ProjectModal({ project, onClose }) {
     >
 
       {/* Backdrop */}
-      <motion.div
+      <Motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
         onClick={onClose}
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'rgba(0,0,0,0.75)',
-          backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)',
-        }}
+        className="absolute inset-0 bg-zinc-100/75 dark:bg-black/75 backdrop-blur-md"
       />
 
       {/* Modal panel */}
@@ -171,7 +179,7 @@ export function ProjectModal({ project, onClose }) {
           pointerEvents: 'none',
         }}
       >
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0, y: 48, scale: 0.97 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 24, scale: 0.97 }}
@@ -180,54 +188,27 @@ export function ProjectModal({ project, onClose }) {
           role="dialog"
           aria-modal="true"
           aria-label={`${project.title} details`}
+          className="flex h-[94vh] w-full max-w-[1120px] flex-col overflow-hidden rounded-[18px] border border-zinc-200/90 bg-[#f8f8f9] shadow-[0_0_0_1px_rgba(0,0,0,0.02),0_40px_100px_rgba(24,24,27,0.24)] dark:border-[#222226] dark:bg-[#0b0b0d] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_40px_100px_rgba(0,0,0,0.85)]"
           style={{
             pointerEvents: 'auto',
-            width: '100%',
-            maxWidth: '960px',
-            height: '92vh',
-            display: 'flex',
-            flexDirection: 'column',
-            borderRadius: '18px',
-            overflow: 'hidden',
-            background: '#0b0b0d',
-            border: '1px solid #222226',
-            boxShadow: '0 0 0 1px rgba(255,255,255,0.04), 0 40px 100px rgba(0,0,0,0.85)',
           }}
         >
           {/* ── Top bar ── */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '12px 20px',
-              borderBottom: '1px solid #1e1e22',
-              flexShrink: 0,
-              position: 'relative',
-            }}
-          >
+          <div className="relative flex flex-shrink-0 items-center justify-between border-b border-zinc-200/80 px-4 py-3 dark:border-[#1e1e22] sm:px-5">
             {/* Traffic-light dots (red is the close button) */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <div className="flex items-center gap-1.5">
               <button
                 type="button"
                 onClick={onClose}
                 aria-label="Close"
-                style={{
-                  width: 13, height: 13, borderRadius: '50%',
-                  background: '#ff5f57', border: 'none', cursor: 'pointer',
-                  padding: 0,
-                }}
+                className="h-[13px] w-[13px] cursor-pointer rounded-full border-0 bg-[#ff5f57] p-0 transition-transform duration-200 hover:scale-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8B0000]"
               />
-              <span style={{ width: 13, height: 13, borderRadius: '50%', background: '#febc2e', opacity: 0.55, display: 'block' }} />
-              <span style={{ width: 13, height: 13, borderRadius: '50%', background: '#28c840', opacity: 0.55, display: 'block' }} />
+              <span className="block h-[13px] w-[13px] rounded-full bg-[#febc2e] opacity-55" />
+              <span className="block h-[13px] w-[13px] rounded-full bg-[#28c840] opacity-55" />
             </div>
 
             {/* Center label */}
-            <span style={{
-              position: 'absolute', left: '50%', transform: 'translateX(-50%)',
-              fontSize: 12, color: '#666', fontWeight: 500, letterSpacing: '0.04em',
-              userSelect: 'none',
-            }}>
+            <span className="pointer-events-none absolute left-1/2 max-w-[55%] -translate-x-1/2 truncate select-none text-[11px] font-medium tracking-[0.04em] text-zinc-500 dark:text-[#84848f] sm:text-xs">
               {project.title}
             </span>
 
@@ -236,16 +217,7 @@ export function ProjectModal({ project, onClose }) {
               type="button"
               onClick={onClose}
               aria-label="Close modal"
-              style={{
-                width: 28, height: 28, borderRadius: '50%',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                background: 'transparent',
-                border: '1px dashed rgba(139,0,0,0.4)',
-                color: '#666', cursor: 'pointer',
-                transition: 'all 0.2s',
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = '#8B0000' }}
-              onMouseLeave={(e) => { e.currentTarget.style.color = '#666'; e.currentTarget.style.borderColor = 'rgba(139,0,0,0.4)' }}
+              className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border border-dashed border-[#8B0000]/50 bg-white/50 text-zinc-500 transition-all duration-200 hover:border-[#8B0000] hover:text-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8B0000] dark:bg-transparent dark:text-[#84848f] dark:hover:text-white"
             >
               <X size={13} strokeWidth={2} />
             </button>
@@ -267,97 +239,143 @@ export function ProjectModal({ project, onClose }) {
             {/* Scroll-animated hero image */}
             <ScrollCard image={project.image} title={project.title} scrollRef={scrollRef} />
 
-            {/* Details section */}
-            <div style={{ padding: '0 40px 80px', maxWidth: 820, margin: '0 auto' }}>
+            {/* Long-form case study shell. New content can be added through project.sections. */}
+            <section className="mx-auto w-full max-w-[1000px] px-4 pb-16 sm:px-8 sm:pb-20" aria-label="Project case study">
+              <div className="overflow-hidden rounded-2xl border border-zinc-200/80 bg-white/70 shadow-[0_12px_32px_rgba(24,24,27,0.04)] dark:border-[#222228] dark:bg-[#101012]/75 dark:shadow-[0_12px_32px_rgba(0,0,0,0.16)]">
+                <div className="h-px structural-dashed-t structural-grid" />
 
-              {/* Dashed divider */}
-              <div style={{
-                height: 1, marginBottom: 32,
-                backgroundImage: 'repeating-linear-gradient(90deg, rgba(139,0,0,0.5) 0, rgba(139,0,0,0.5) 16px, transparent 16px, transparent 32px)',
-                backgroundSize: '100% 1px', backgroundPosition: 'top', backgroundRepeat: 'no-repeat',
-              }} />
+                <header className="flex flex-col gap-6 px-5 py-6 sm:px-8 sm:py-8">
+                  <div className="flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8B0000] dark:text-[#c44]">
+                    <span>Project case study</span>
+                    <span className="font-mono text-zinc-400 dark:text-[#666]">Selected work / 01</span>
+                  </div>
 
-              {/* Title + action links */}
-              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 24 }}>
-                <h3 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: '#f3f3f3', letterSpacing: '-0.02em' }}>
-                  {project.title}
-                </h3>
-                <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
-                  {project.github && project.github !== '#' && (
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        display: 'inline-flex', alignItems: 'center', gap: 6,
-                        padding: '6px 12px', borderRadius: 8,
-                        fontSize: 11, fontWeight: 600,
-                        border: '1px dashed rgba(139,0,0,0.5)',
-                        color: '#a2a2ab', textDecoration: 'none',
-                      }}
-                    >
-                      <GithubIcon size={13} /> GitHub
-                    </a>
-                  )}
-                  {project.live && project.live !== '#' && (
-                    <a
-                      href={project.live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        display: 'inline-flex', alignItems: 'center', gap: 6,
-                        padding: '6px 12px', borderRadius: 8,
-                        fontSize: 11, fontWeight: 600,
-                        border: '1px dashed rgba(139,0,0,0.6)',
-                        background: 'rgba(139,0,0,0.12)',
-                        color: '#cc4444', textDecoration: 'none',
-                      }}
-                    >
-                      <Globe size={12} /> Live <ArrowUpRight size={10} />
-                    </a>
-                  )}
+                  <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+                    <div>
+                      <p className="mb-2 mt-0 text-[11px] font-medium text-zinc-400 dark:text-[#666]">Designed and built by Yousef Al Bakri</p>
+                      <h3 className="m-0 max-w-[560px] text-[28px] font-bold leading-none tracking-[-0.04em] text-zinc-900 dark:text-[#f3f3f3] sm:text-[34px]">
+                        {project.title}
+                      </h3>
+                    </div>
+                    <div className="flex flex-shrink-0 flex-wrap gap-2">
+                      {project.github && project.github !== '#' && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 rounded-lg border border-dashed border-[#8B0000]/60 bg-white px-3 py-1.5 text-[11px] font-semibold text-zinc-600 no-underline transition-colors hover:border-[#8B0000] hover:text-zinc-900 dark:bg-[#111114] dark:text-[#a2a2ab] dark:hover:text-white"
+                        >
+                          <GithubIcon size={13} /> GitHub
+                        </a>
+                      )}
+                      {project.live && project.live !== '#' && (
+                        <a
+                          href={project.live}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 rounded-lg border border-dashed border-[#8B0000]/70 bg-[#8B0000]/5 px-3 py-1.5 text-[11px] font-semibold text-[#8B0000] no-underline transition-colors hover:bg-[#8B0000]/10 dark:bg-[#8B0000]/10 dark:text-[#cc4444] dark:hover:bg-[#8B0000]/20"
+                        >
+                          <Globe size={12} /> Live <ArrowUpRight size={10} />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </header>
+
+                <div className="h-px structural-dashed-t structural-grid" />
+
+                <div className="grid lg:grid-cols-[240px_minmax(0,1fr)]">
+                  <aside className="border-b border-dashed border-[#8B0000]/35 dark:border-[#600000] lg:border-b-0 lg:border-r">
+                    <div className="space-y-8 px-5 py-6 sm:px-7 lg:sticky lg:top-0 lg:py-8">
+                      <div>
+                        <p className="mb-3 mt-0 text-[9px] font-semibold uppercase tracking-[0.2em] text-zinc-400 dark:text-[#666]">On this page</p>
+                        <nav aria-label="Case study sections" className="flex flex-wrap gap-2 lg:flex-col lg:gap-1">
+                          {caseStudySections.map((section, index) => (
+                            <a
+                              key={section.id}
+                              href={`#${projectSlug}-${section.id}`}
+                              className="group flex items-center gap-2 rounded-md px-2 py-1.5 text-[11px] font-medium text-zinc-500 no-underline transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-[#777] dark:hover:bg-[#161618] dark:hover:text-[#f3f3f3]"
+                            >
+                              <span className="font-mono text-[9px] text-[#8B0000]/70 dark:text-[#c44]">{String(index + 1).padStart(2, '0')}</span>
+                              {section.label}
+                            </a>
+                          ))}
+                        </nav>
+                      </div>
+
+                      <div>
+                        <p className="mb-3 mt-0 text-[9px] font-semibold uppercase tracking-[0.2em] text-zinc-400 dark:text-[#666]">Technology</p>
+                        <div className="flex flex-wrap gap-2">
+                          {project.tags.map((tag) => (
+                            <span
+                              key={tag}
+                              className="inline-flex items-center gap-1.5 rounded-[6px] border border-dashed border-[#8B0000]/55 bg-white px-2 py-1 text-[10px] font-medium text-zinc-600 dark:border-[#600000] dark:bg-[#111114] dark:text-[#a2a2ab]"
+                            >
+                              {TAG_ICONS[tag] || <span className="text-[9px] font-bold text-zinc-500 dark:text-[#666]">#</span>}
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </aside>
+
+                  <article className="min-w-0">
+                    {caseStudySections.map((section, index) => (
+                      <section
+                        key={section.id}
+                        id={`${projectSlug}-${section.id}`}
+                        className="scroll-mt-6 px-5 py-8 sm:px-8 sm:py-10 [&+section]:border-t [&+section]:border-dashed [&+section]:border-[#8B0000]/35 dark:[&+section]:border-[#600000]"
+                      >
+                        <div className="mb-6 flex items-center gap-3">
+                          <span className="font-mono text-[11px] text-[#8B0000] dark:text-[#c44]">{String(index + 1).padStart(2, '0')}</span>
+                          <span className="h-px w-8 bg-[#8B0000]/35 dark:bg-[#600000]" />
+                          <p className="m-0 text-[10px] font-semibold uppercase tracking-[0.18em] text-zinc-500 dark:text-[#84848f]">{section.label}</p>
+                        </div>
+
+                        <h4 className="m-0 max-w-[620px] text-[21px] font-semibold leading-tight tracking-[-0.025em] text-zinc-900 dark:text-[#f3f3f3] sm:text-[24px]">
+                          {section.title}
+                        </h4>
+
+                        {(Array.isArray(section.body) ? section.body : [section.body]).filter(Boolean).map((paragraph) => (
+                          <p key={paragraph} className="mb-0 mt-4 max-w-[66ch] text-[13.5px] leading-7 text-zinc-600 dark:text-[#a2a2ab]">
+                            {paragraph}
+                          </p>
+                        ))}
+
+                        {section.points?.length > 0 && (
+                          <ul className="mb-0 mt-6 grid gap-3 p-0 sm:grid-cols-2">
+                            {section.points.map((point) => (
+                              <li key={point} className="flex list-none items-start gap-3 rounded-lg border border-dashed border-[#8B0000]/35 p-3 text-[12px] leading-5 text-zinc-500 dark:border-[#600000] dark:text-[#8b8b95]">
+                                <span className="mt-2 h-px w-3 shrink-0 bg-[#8B0000]" />
+                                {point}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+
+                        {section.image && (
+                          <figure className="mb-0 mt-7 overflow-hidden rounded-xl border border-zinc-200 bg-zinc-50 p-1.5 dark:border-[#222228] dark:bg-[#111114]">
+                            <img src={section.image} alt={section.imageAlt || ''} className="block h-auto w-full rounded-lg" />
+                            {section.caption && <figcaption className="px-2 pb-1 pt-2 text-[10px] text-zinc-400 dark:text-[#666]">{section.caption}</figcaption>}
+                          </figure>
+                        )}
+                      </section>
+                    ))}
+
+                    <div className="border-t border-dashed border-[#8B0000]/35 px-5 py-6 dark:border-[#600000] sm:px-8">
+                      <div className="flex flex-wrap items-center justify-between gap-3 text-[10px] font-medium text-zinc-400 dark:text-[#666]">
+                        <span>End of case study</span>
+                        <span className="font-mono">{String(project.tags.length).padStart(2, '0')} tools · {String(caseStudySections.length).padStart(2, '0')} sections</span>
+                      </div>
+                    </div>
+                  </article>
                 </div>
+
               </div>
-
-              {/* About */}
-              <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#8B0000', marginBottom: 10 }}>
-                About
-              </p>
-              <p style={{ fontSize: 14, color: '#a2a2ab', lineHeight: 1.75, marginBottom: 32 }}>
-                {project.description}
-              </p>
-
-              {/* Dashed divider */}
-              <div style={{
-                height: 1, marginBottom: 24,
-                backgroundImage: 'repeating-linear-gradient(90deg, rgba(139,0,0,0.5) 0, rgba(139,0,0,0.5) 16px, transparent 16px, transparent 32px)',
-                backgroundSize: '100% 1px', backgroundPosition: 'top', backgroundRepeat: 'no-repeat',
-              }} />
-
-              {/* Tech stack */}
-              <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#8B0000', marginBottom: 12 }}>
-                Tech Stack
-              </p>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                {project.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    style={{
-                      display: 'inline-flex', alignItems: 'center', gap: 6,
-                      padding: '6px 12px', borderRadius: 6,
-                      border: '1px dashed rgba(139,0,0,0.55)',
-                      color: '#a2a2ab', fontSize: 11, fontWeight: 500,
-                    }}
-                  >
-                    {TAG_ICONS[tag] || <span style={{ fontSize: 9, fontWeight: 700, color: '#666' }}>#</span>}
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
-            </div>
+            </section>
           </div>
-        </motion.div>
+        </Motion.div>
       </div>
     </div>
   )

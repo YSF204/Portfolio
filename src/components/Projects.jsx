@@ -145,6 +145,39 @@ function ProjectCard({ project, onViewDetails }) {
   )
 }
 
+function UpcomingProjectsStrip() {
+  return (
+    <div className="structural-dashed-b structural-grid relative isolate overflow-hidden px-5 py-7 sm:px-8 sm:py-8" aria-label="More projects are coming soon">
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_82%_50%,rgba(139,0,0,0.09),transparent_34%)] dark:bg-[radial-gradient(circle_at_82%_50%,rgba(139,0,0,0.14),transparent_36%)]" />
+      <div className="pointer-events-none absolute inset-0 -z-10 opacity-40 bg-[linear-gradient(135deg,transparent_0%,transparent_48%,rgba(139,0,0,0.12)_48%,rgba(139,0,0,0.12)_49%,transparent_49%,transparent_100%)] bg-[length:16px_16px] dark:opacity-25" />
+
+      <div className="mb-3 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-2.5">
+          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#8B0000] shadow-[0_0_10px_rgba(139,0,0,0.65)]" />
+          <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-zinc-500 dark:text-[#777]">In the workshop</span>
+        </div>
+        <span className="font-mono text-[9px] text-zinc-400 dark:text-[#555]">04 / NEXT</span>
+      </div>
+
+      <div className="shipping-soon-frame group relative overflow-hidden py-1">
+        <p
+          aria-hidden="true"
+          className="shipping-soon-word m-0 whitespace-nowrap text-center leading-none transition-all duration-500"
+        >
+          Shipping More Soon
+        </p>
+        <p className="sr-only">Shipping more projects soon.</p>
+      </div>
+
+      <div className="mt-3 flex items-center justify-center gap-3 text-[10px] text-zinc-400 dark:text-[#666]">
+        <span className="h-px w-8 bg-[#8B0000]/35 dark:bg-[#600000]" />
+        <span>New ideas are being designed, built, and tested.</span>
+        <span className="h-px w-8 bg-[#8B0000]/35 dark:bg-[#600000]" />
+      </div>
+    </div>
+  )
+}
+
 /* ── Projects Section ── */
 export function ProjectsSection() {
   const [openProject, setOpenProject] = useState(null)
@@ -178,8 +211,8 @@ export function ProjectsSection() {
             <div className="hidden md:block" />
           </div>
 
-          {/* ── BOTTOM line ── */}
-          <div className="w-full h-[1px] structural-dashed-t structural-grid" />
+          {/* ── UPCOMING WORK ── */}
+          <UpcomingProjectsStrip />
 
         </div>
       </div>
@@ -195,5 +228,3 @@ export function ProjectsSection() {
     </>
   )
 }
-
-

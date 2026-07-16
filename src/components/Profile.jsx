@@ -6,7 +6,6 @@ import YousefImg from '../assets/Yousef.png'
 import cvFile from '../assets/cv/Yousef-ALBakri.pdf'
 import RotatingText from './RotatingText'
 import PixelTransition from './PixelTransition'
-import Shuffle from './Shuffle'
 
 export function ProfileHeader({ theme, toggleTheme }) {
   return (
@@ -33,24 +32,10 @@ export function ProfileHeader({ theme, toggleTheme }) {
           </div>
           <div className="flex-1">
             <h1 className="font-bold text-zinc-900 dark:text-zinc-100 text-[17px] flex items-center gap-1.5">
-              <Shuffle
-                tag="span"
-                text="Yousef AL Bakri"
-                shuffleDirection="right"
-                duration={0.35}
-                animationMode="evenodd"
-                shuffleTimes={1}
-                ease="power3.out"
-                stagger={0.03}
-                threshold={0.1}
-                triggerOnce={true}
-                triggerOnHover
-                respectReducedMotion={true}
-                loop={false}
-                loopDelay={0}
-              /> <MdVerified className="text-zinc-400 dark:text-zinc-500" size={15} />
+              <span>Yousef AL Bakri</span>
+              <MdVerified className="text-zinc-400 dark:text-zinc-500" size={15} />
             </h1>
-            <p className="text-[12px] mt-0.5 text-zinc-500 dark:text-[#a2a2ab]">@YSF204</p>
+            <p className="text-[12px] mt-0.5 text-zinc-500 dark:text-[#a2a2ab]">Yousef204b@gmail.com</p>
             <div className="flex items-center gap-2 mt-3 text-[16px] font-bold">
               <span className="font-mono tracking-widest text-zinc-700 dark:text-zinc-300">Yousef is a </span>
               <RotatingText

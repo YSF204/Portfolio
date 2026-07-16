@@ -1,7 +1,7 @@
 import { GitHubCalendar } from 'react-github-calendar'
 import { AnimatedRow, SectionTitle } from './ui'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Briefcase, Calendar, ChevronDown } from 'lucide-react'
+import { motion as Motion, AnimatePresence } from 'framer-motion'
+import { ChevronDown, MapPin } from 'lucide-react'
 import { useState } from 'react'
 import foothillLogo from '../assets/foothill.png'
 
@@ -10,190 +10,159 @@ const experiences = [
     id: 1,
     company: 'Foothill Technology Solutions',
     role: 'Backend Intern',
-    period: 'June 2025 - Current',
+    period: 'Jun 2025 — Present',
+    status: 'Current',
+    location: null,
     logo: foothillLogo,
     logoType: 'image',
+    summary: 'Working on backend features in a production codebase, with most of my time spent around APIs, databases, and debugging.',
     bullets: [
-      'Built and maintained RESTful APIs using modern backend frameworks',
-      'Collaborated with senior engineers on database schema design and query optimization',
-      'Participated in code reviews, applying best practices for clean and maintainable code',
-      'Gained hands-on experience with version control workflows and CI/CD pipelines',
+      'Build and maintain API endpoints, then test the full request flow before a change moves forward.',
+      'Work with database schemas and queries while learning how backend decisions affect the rest of the product.',
+      'Use code reviews as part of the work: explain changes, respond to feedback, and improve the implementation.',
     ],
+    skills: ['REST APIs', 'Databases', 'Code review'],
   },
   {
     id: 2,
-    company: 'Yagmoor for Programming',
-    role: 'Trainee',
-    period: 'Jan 2025 — Apr 2025',
+    company: 'Yaghmour for Programming',
+    role: 'Programming Intern',
+    period: 'Jan 2025 — May 2025',
+    status: 'Completed',
+    location: 'Hebron, Palestine',
     logo: null,
     logoType: 'initial',
     logoInitial: 'Y',
+    summary: 'Joined a four-person team working on Al Aqsa Accounting System, a business product used by local companies.',
     bullets: [
-      'Observed and trained within a professional software development environment',
-      'Gained exposure to agile methodologies and sprint-based project management',
-      'Participated in team stand-ups, code walkthroughs, and retrospective sessions',
-      'Developed foundational skills in real-world development workflows and collaboration tools',
+      'Contributed to invoicing, reporting, and inventory parts of the accounting system.',
+      'Tested and debugged features used by more than 100 local businesses.',
+      'Learned how a team investigates real user problems and turns them into focused software fixes.',
     ],
+    skills: ['Testing', 'Debugging', 'Business software'],
   },
 ]
 
-function ExperienceCard({ exp, index }) {
-  const [open, setOpen] = useState(false)
+function ExperienceEntry({ exp, index }) {
+  const [open, setOpen] = useState(index === 0)
+  const detailsId = `experience-details-${exp.id}`
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
+    <Motion.article
+      layout
+      initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-30px' }}
-      transition={{ duration: 0.5, delay: index * 0.12, ease: 'easeOut' }}
+      transition={{ duration: 0.45, delay: index * 0.1, ease: 'easeOut' }}
+      className="structural-dashed-b structural-grid"
     >
-      {/* Clickable header */}
       <button
-        onClick={() => setOpen((v) => !v)}
-        className="w-full text-left cursor-pointer group"
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        aria-expanded={open}
+        aria-controls={detailsId}
+        className="group grid w-full cursor-pointer grid-cols-[1fr_auto] text-left sm:grid-cols-[145px_minmax(0,1fr)_64px]"
       >
-        <div
-          className={`relative border rounded-2xl bg-white/80 dark:bg-[#0d0d0f]/80 backdrop-blur-sm overflow-hidden transition-all duration-300 ${
-            open
-              ? 'border-[#8B0000]/30 dark:border-[#8B0000]/20 shadow-[0_0_24px_rgba(139,0,0,0.05)] dark:shadow-[0_0_24px_rgba(139,0,0,0.07)]'
-              : 'border-zinc-200 dark:border-[#1a1a1f] hover:border-[#8B0000]/25 dark:hover:border-[#8B0000]/15'
-          }`}
-        >
-          {/* Top accent */}
-          <div
-            className={`absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#8B0000]/30 to-transparent transition-opacity duration-500 ${
-              open ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
-            }`}
-          />
+        <div className="col-span-2 flex items-center justify-between px-5 pb-3 pt-5 sm:col-span-1 sm:block sm:px-6 sm:py-7">
+          <span className="font-mono text-[10px] font-medium tracking-[0.08em] text-[#8B0000] dark:text-[#c44]">
+            {String(index + 1).padStart(2, '0')}
+          </span>
+          <p className="m-0 font-mono text-[10px] leading-5 text-zinc-400 dark:text-[#666] sm:mt-8">
+            {exp.period}
+          </p>
+        </div>
 
-          <div className="p-5 sm:p-6">
-            {/* Header row */}
-            <div className="flex items-center gap-4">
-              {/* Logo */}
-              <div
-                className={`shrink-0 w-11 h-11 rounded-xl border flex items-center justify-center overflow-hidden transition-all duration-300 ${
-                  open
-                    ? 'border-[#8B0000]/25 shadow-[0_0_10px_rgba(139,0,0,0.08)] bg-zinc-50 dark:bg-[#111114]'
-                    : 'border-zinc-200 dark:border-[#222228] bg-zinc-50 dark:bg-[#111114] group-hover:border-[#8B0000]/20'
-                }`}
-              >
-                {exp.logoType === 'image' ? (
-                  <img
-                    src={exp.logo}
-                    alt={exp.company}
-                    className="w-7 h-7 object-contain"
-                  />
-                ) : (
-                  <span className="text-[15px] font-bold text-[#8B0000]">
-                    {exp.logoInitial}
-                  </span>
-                )}
-              </div>
-
-              {/* Company & Role */}
-              <div className="flex-1 min-w-0">
-                <h3 className="text-[14px] font-semibold text-zinc-900 dark:text-[#eee] leading-tight truncate">
-                  {exp.company}
-                </h3>
-                <div className="flex items-center gap-3 mt-1">
-                  <div className="flex items-center gap-1.5">
-                    <Briefcase
-                      size={11}
-                      className="text-[#8B0000]/60 shrink-0"
-                    />
-                    <span className="text-[12px] font-medium text-[#8B0000]/70 dark:text-[#c44]/80">
-                      {exp.role}
-                    </span>
-                  </div>
-                  <span className="hidden sm:inline text-zinc-300 dark:text-[#2a2a2f]">
-                    ·
-                  </span>
-                  <div className="hidden sm:flex items-center gap-1">
-                    <Calendar
-                      size={10}
-                      className="text-zinc-400 dark:text-[#555]"
-                    />
-                    <span className="text-[11px] text-zinc-400 dark:text-[#666] font-medium">
-                      {exp.period}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Arrow toggle */}
-              <div
-                className={`shrink-0 w-8 h-8 rounded-lg border flex items-center justify-center transition-all duration-300 ${
-                  open
-                    ? 'border-[#8B0000]/25 bg-[#8B0000]/5 dark:bg-[#8B0000]/10'
-                    : 'border-zinc-200 dark:border-[#222228] bg-zinc-50 dark:bg-[#111114] group-hover:border-[#8B0000]/20'
-                }`}
-              >
-                <motion.div
-                  animate={{ rotate: open ? 180 : 0 }}
-                  transition={{ duration: 0.3, ease: 'easeInOut' }}
-                >
-                  <ChevronDown
-                    size={14}
-                    className={`transition-colors duration-200 ${
-                      open
-                        ? 'text-[#8B0000]'
-                        : 'text-zinc-400 dark:text-[#555] group-hover:text-[#8B0000]/60'
-                    }`}
-                  />
-                </motion.div>
-              </div>
-            </div>
-
-            {/* Mobile period (visible on small screens) */}
-            <div className="flex sm:hidden items-center gap-1 mt-2 ml-[60px]">
-              <Calendar
-                size={10}
-                className="text-zinc-400 dark:text-[#555]"
-              />
-              <span className="text-[11px] text-zinc-400 dark:text-[#666] font-medium">
-                {exp.period}
-              </span>
-            </div>
-
-            {/* Expandable bullet points */}
-            <AnimatePresence initial={false}>
-              {open && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
-                  className="overflow-hidden"
-                >
-                  <div className="mt-4 ml-[60px] border-l-2 border-[#8B0000]/15 dark:border-[#8B0000]/10 pl-4">
-                    <ul className="space-y-2.5">
-                      {exp.bullets.map((bullet, i) => (
-                        <motion.li
-                          key={i}
-                          initial={{ opacity: 0, x: -8 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{
-                            duration: 0.3,
-                            delay: i * 0.06,
-                            ease: 'easeOut',
-                          }}
-                          className="flex items-start gap-2.5"
-                        >
-                          <span className="shrink-0 w-1.5 h-1.5 rounded-full bg-[#8B0000]/40 mt-[6px]" />
-                          <span className="text-[12.5px] leading-[1.6] text-zinc-500 dark:text-[#888]">
-                            {bullet}
-                          </span>
-                        </motion.li>
-                      ))}
-                    </ul>
-                  </div>
-                </motion.div>
+        <div className="border-t border-dashed border-[#8B0000]/30 px-5 py-5 dark:border-[#600000] sm:border-l sm:border-t-0 sm:px-6 sm:py-7">
+          <div className="flex items-start gap-4">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-[10px] border border-dashed border-[#8B0000]/45 bg-white dark:border-[#600000] dark:bg-[#111114]">
+              {exp.logoType === 'image' ? (
+                <img src={exp.logo} alt="" className="h-7 w-7 object-contain" />
+              ) : (
+                <span className="text-sm font-bold text-[#8B0000] dark:text-[#c44]">{exp.logoInitial}</span>
               )}
-            </AnimatePresence>
+            </div>
+
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                <h3 className="m-0 text-[17px] font-semibold leading-tight tracking-[-0.02em] text-zinc-900 dark:text-[#f3f3f3]">
+                  {exp.role}
+                </h3>
+                <span className={`rounded-full border px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.12em] ${
+                  exp.status === 'Current'
+                    ? 'border-[#8B0000]/35 bg-[#8B0000]/5 text-[#8B0000] dark:border-[#600000] dark:bg-[#8B0000]/10 dark:text-[#c44]'
+                    : 'border-zinc-200 text-zinc-400 dark:border-[#25252a] dark:text-[#666]'
+                }`}>
+                  {exp.status}
+                </span>
+              </div>
+              <p className="mb-0 mt-1 text-[12px] font-medium text-zinc-500 dark:text-[#8b8b95]">{exp.company}</p>
+              <p className="mb-0 mt-4 max-w-[500px] text-[13px] leading-6 text-zinc-600 dark:text-[#a2a2ab]">
+                {exp.summary}
+              </p>
+            </div>
           </div>
         </div>
+
+        <div className="flex items-center justify-center border-l border-t border-dashed border-[#8B0000]/30 px-4 dark:border-[#600000] sm:border-t-0">
+          <Motion.span
+            animate={{ rotate: open ? 180 : 0 }}
+            transition={{ duration: 0.28, ease: 'easeInOut' }}
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-dashed border-[#8B0000]/45 text-zinc-400 transition-colors group-hover:border-[#8B0000] group-hover:text-[#8B0000] dark:border-[#600000] dark:text-[#666] dark:group-hover:text-[#c44]"
+          >
+            <ChevronDown size={14} />
+          </Motion.span>
+        </div>
       </button>
-    </motion.div>
+
+      <AnimatePresence initial={false}>
+        {open && (
+          <Motion.div
+            id={detailsId}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.34, ease: [0.25, 0.1, 0.25, 1] }}
+            className="overflow-hidden"
+          >
+            <div className="grid sm:grid-cols-[145px_minmax(0,1fr)_64px]">
+              <div className="hidden sm:block" />
+              <div className="border-t border-dashed border-[#8B0000]/30 px-5 pb-7 pt-5 dark:border-[#600000] sm:border-l sm:px-6">
+                {exp.location && (
+                  <div className="mb-4 flex items-center gap-1.5 text-[10px] font-medium text-zinc-400 dark:text-[#666]">
+                    <MapPin size={11} />
+                    <span>{exp.location}</span>
+                  </div>
+                )}
+
+                <ul className="m-0 space-y-3 p-0">
+                  {exp.bullets.map((bullet, bulletIndex) => (
+                    <Motion.li
+                      key={bullet}
+                      initial={{ opacity: 0, x: -6 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.25, delay: bulletIndex * 0.05 }}
+                      className="flex list-none items-start gap-3"
+                    >
+                      <span className="mt-[9px] h-px w-4 shrink-0 bg-[#8B0000]/55 dark:bg-[#8B0000]" />
+                      <span className="text-[12.5px] leading-6 text-zinc-500 dark:text-[#8b8b95]">{bullet}</span>
+                    </Motion.li>
+                  ))}
+                </ul>
+
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {exp.skills.map((skill) => (
+                    <span key={skill} className="rounded-[6px] border border-dashed border-[#8B0000]/45 px-2.5 py-1 text-[10px] font-medium text-zinc-500 dark:border-[#600000] dark:text-[#777]">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="hidden border-l border-t border-dashed border-[#8B0000]/30 dark:border-[#600000] sm:block" />
+            </div>
+          </Motion.div>
+        )}
+      </AnimatePresence>
+    </Motion.article>
   )
 }
 
@@ -201,23 +170,23 @@ export function ExperienceGithub({ theme }) {
   return (
     <>
       <AnimatedRow dotPattern={true} topBorder={true} bottomBorder={false}>
-        <SectionTitle title="Experience" />
+        <SectionTitle kicker="In practice" title="Experience" />
       </AnimatedRow>
 
-      <AnimatedRow containerClass="px-5 sm:px-8 pb-2" bottomBorder={false}>
-        <div className="flex flex-col gap-3">
-          {experiences.map((exp, i) => (
-            <ExperienceCard key={exp.id} exp={exp} index={i} />
+      <AnimatedRow containerClass="structural-dashed-t structural-grid" bottomBorder={false}>
+        <div>
+          {experiences.map((exp, index) => (
+            <ExperienceEntry key={exp.id} exp={exp} index={index} />
           ))}
         </div>
       </AnimatedRow>
 
-      <AnimatedRow dotPattern={true} topBorder={true} bottomBorder={false}>
-        <SectionTitle title="Github's Activity" />
+      <AnimatedRow dotPattern={true} topBorder={false} bottomBorder={false}>
+        <SectionTitle kicker="The work continues" title="GitHub Activity" />
       </AnimatedRow>
-      <AnimatedRow containerClass="p-8 overflow-hidden" bottomBorder={false}>
-        <div className="w-full flex flex-col items-center max-w-full pb-2 overflow-x-hidden">
-          <div className="w-full overflow-hidden flex justify-center [&_article]:w-full [&_svg]:w-full [&_svg]:max-w-[700px] [&_svg]:h-auto">
+      <AnimatedRow containerClass="p-8 overflow-hidden" topBorder={true} bottomBorder={false}>
+        <div className="flex w-full max-w-full flex-col items-center overflow-x-hidden pb-2">
+          <div className="flex w-full justify-center overflow-hidden [&_article]:w-full [&_svg]:h-auto [&_svg]:w-full [&_svg]:max-w-[700px]">
             <GitHubCalendar
               username="YSF204"
               colorScheme={theme === 'dark' ? 'dark' : 'light'}
@@ -226,13 +195,7 @@ export function ExperienceGithub({ theme }) {
               fontSize={13}
               theme={{
                 dark: ['#161616', '#2a0a0a', '#3d1111', '#5c1a1a', '#8b0000'],
-                light: [
-                  '#e8e0e0',
-                  '#d4b0b0',
-                  '#b06060',
-                  '#8b2020',
-                  '#6b0000',
-                ],
+                light: ['#e8e0e0', '#d4b0b0', '#b06060', '#8b2020', '#6b0000'],
               }}
             />
           </div>
