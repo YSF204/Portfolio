@@ -11,6 +11,7 @@ import { ProjectModal } from './ProjectModal'
 import aicrsImg from '../assets/AICRS.png'
 import spokenPagesImg from '../assets/SpokenPages.png'
 import flashcardImg from '../assets/flashcard.png'
+import feelAliveImg from '../assets/FeelAlive.png'
 
 /* ── Inline GitHub icon (not exported by this lucide-react version) ── */
 function GithubIcon({ size = 15, className = '' }) {
@@ -42,6 +43,8 @@ const TAG_ICONS = {
   'OAuth': <span className="text-[10px] font-bold text-zinc-500 dark:text-zinc-400">AUTH</span>,
   'shadcn/ui': <span className="text-[10px] font-bold text-zinc-500 dark:text-zinc-400">UI</span>,
   'Vapi AI': <span className="text-[10px] font-bold text-[#00b4d8]">Vapi</span>,
+  'Framer Motion': <span className="text-[10px] font-bold text-[#e94cff]">FM</span>,
+  'Vite': <span className="text-[10px] font-bold text-[#8B5CF6]">VITE</span>,
 }
 
 /* ── Projects data ── Add future projects here ── */
@@ -51,8 +54,58 @@ const projects = [
     description: 'An AI-powered recruitment platform that enables users to build ATS-friendly resumes, analyze CVs, receive AI-driven feedback, and discover relevant job opportunities through automated job aggregation.',
     tags: ['React', 'Tailwind CSS', 'Node.js', 'Express.js', 'MongoDB', 'JWT', 'OAuth', 'Redis', 'OpenAI API', 'Playwright'],
     image: aicrsImg,
-    github: '#',
-    live: '#',
+    github: 'https://github.com/YSF204/AI-CRS',
+    live: 'https://ai-crs-frontend.onrender.com',
+    sections: [
+      {
+        id: 'platform',
+        label: 'Platform',
+        title: 'One recruitment workspace for every role',
+        body: 'AI-CRS brings job seekers, employers, and administrators into role-specific experiences. Candidates can manage resumes and applications, employers can publish roles and review applicants, and administrators can oversee the wider platform from dedicated dashboards.',
+        points: [
+          'Role-based access for job seekers, employers, and administrators',
+          'Job posting, application, and candidate-management workflows',
+          'Dedicated dashboards with recruitment and usage insights',
+          'Google OAuth and secure JWT-based sessions',
+        ],
+      },
+      {
+        id: 'resume-intelligence',
+        label: 'AI & ATS',
+        title: 'Resume intelligence that turns a CV into useful feedback',
+        body: 'The platform accepts PDF and DOCX resumes, extracts structured candidate information, and evaluates ATS compatibility. AI-assisted analysis identifies skills and experience, measures keyword relevance, and returns actionable recommendations candidates can use to strengthen their applications.',
+        points: [
+          'PDF and DOCX resume upload and parsing',
+          'ATS compatibility scoring and keyword analysis',
+          'Skill and experience extraction with AI-assisted feedback',
+          'Resume optimization suggestions tied to job requirements',
+        ],
+      },
+      {
+        id: 'matching',
+        label: 'Matching',
+        title: 'Smarter discovery and candidate shortlisting',
+        body: 'AI-CRS compares candidate profiles with structured job requirements to produce match percentages and ranked results. This supports relevant job recommendations for candidates while giving employers a faster way to identify promising applicants.',
+        points: [
+          'Skill-similarity and candidate-to-job matching',
+          'Ranked applicant lists and ATS-based filtering',
+          'Automated job aggregation for broader discovery',
+          'Manual controls for employer review and shortlisting',
+        ],
+      },
+      {
+        id: 'architecture',
+        label: 'Architecture',
+        title: 'A production-minded full-stack foundation',
+        body: 'The React and Vite frontend talks to a layered Express API backed by MongoDB. Redis supports fast shared state, while validation, rate limiting, secure headers, request sanitization, and role middleware protect the platform. External AI providers power the language and document-analysis workflows.',
+        points: [
+          'Feature-organized React frontend with reusable UI and services',
+          'Layered Express API with controllers, services, and integrations',
+          'MongoDB data models and Redis-backed infrastructure',
+          'Helmet, rate limiting, validation, and request sanitization',
+        ],
+      },
+    ],
   },
   {
     title: 'SpokenPages',
@@ -67,8 +120,54 @@ const projects = [
     description: 'An AI-powered study tool that transforms pasted text into interactive flashcards, helping users review concepts through automatically generated question-and-answer cards.',
     tags: ['React', 'Node.js', 'Express.js', 'MongoDB', 'OpenAI API'],
     image: flashcardImg,
-    github: '#',
+    github: 'https://github.com/YSF204/AIFlash-Card',
     live: '#',
+  },
+  {
+    title: 'Feel Alive',
+    description: 'An immersive editorial landing page that turns a botanical collection into a cinematic, scroll-led visual experience about motion, presence, and discovery.',
+    tags: ['React', 'Tailwind CSS', 'Framer Motion', 'Vite'],
+    image: feelAliveImg,
+    github: 'https://github.com/YSF204/FeelAlive-LandingPage',
+    live: 'https://ysf204.github.io/FeelAlive-LandingPage/',
+    sections: [
+      {
+        id: 'art-direction',
+        label: 'Art direction',
+        title: 'A digital archive built around feeling',
+        body: 'Feel Alive combines surreal landscapes, expressive typography, and botanical artwork into an editorial experience that feels closer to a living art book than a conventional landing page. The visual system balances large cinematic moments with quiet archival details.',
+        points: [
+          'Cinematic full-screen hero composition',
+          'Editorial typography with a distinct display system',
+          'Numbered botanical collection with artwork-led storytelling',
+          'Consistent archive labels, captions, and visual metadata',
+        ],
+      },
+      {
+        id: 'motion',
+        label: 'Motion',
+        title: 'Scroll becomes the narrative',
+        body: 'The page guides visitors from a surreal opening scene through a curated botanical archive and into an expansive final field note. Motion, pacing, and layered transitions create continuity between sections while keeping the artwork at the center of the experience.',
+        points: [
+          'Scroll-led transitions and staged content reveals',
+          'Layered imagery that creates depth and atmosphere',
+          'A six-piece botanical sequence with a clear visual rhythm',
+          'An immersive closing chapter that extends the story',
+        ],
+      },
+      {
+        id: 'experience',
+        label: 'Experience',
+        title: 'An expressive experience that remains easy to explore',
+        body: 'Minimal navigation, strong section markers, descriptive image text, and a clear content hierarchy keep the experimental presentation understandable. The responsive React build preserves that character across screen sizes while Framer Motion handles the interaction language.',
+        points: [
+          'Focused navigation to the archive and final chapter',
+          'Responsive layouts for the artwork and typography',
+          'Descriptive alternative text for the visual collection',
+          'React, Tailwind CSS, and Framer Motion implementation',
+        ],
+      },
+    ],
   },
 ]
 
@@ -96,16 +195,20 @@ function ProjectCard({ project, onViewDetails }) {
           <a
             href={project.github}
             onClick={(e) => { if (!project.github || project.github === '#') e.preventDefault() }}
+            target={project.github && project.github !== '#' ? '_blank' : undefined}
+            rel={project.github && project.github !== '#' ? 'noopener noreferrer' : undefined}
             className="text-zinc-400 dark:text-[#7e7e89] hover:text-zinc-900 dark:hover:text-white transition-colors"
-            aria-label="GitHub"
+            aria-label={`${project.title} on GitHub`}
           >
             <GithubIcon size={15} />
           </a>
           <a
             href={project.live}
             onClick={(e) => { if (!project.live || project.live === '#') e.preventDefault() }}
+            target={project.live && project.live !== '#' ? '_blank' : undefined}
+            rel={project.live && project.live !== '#' ? 'noopener noreferrer' : undefined}
             className="text-zinc-400 dark:text-[#7e7e89] hover:text-zinc-900 dark:hover:text-white transition-colors"
-            aria-label="Live site"
+            aria-label={`Open ${project.title} live site`}
           >
             <Globe size={15} strokeWidth={1.5} />
           </a>
@@ -156,7 +259,7 @@ function UpcomingProjectsStrip() {
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#8B0000] shadow-[0_0_10px_rgba(139,0,0,0.65)]" />
           <span className="text-[9px] font-semibold uppercase tracking-[0.2em] text-zinc-500 dark:text-[#777]">In the workshop</span>
         </div>
-        <span className="font-mono text-[9px] text-zinc-400 dark:text-[#555]">04 / NEXT</span>
+        <span className="font-mono text-[9px] text-zinc-400 dark:text-[#555]">05 / NEXT</span>
       </div>
 
       <div className="shipping-soon-frame group relative overflow-hidden py-1">
@@ -208,7 +311,7 @@ export function ProjectsSection() {
           {/* ── Row 2 ── */}
           <div className="grid grid-cols-1 md:grid-cols-2 structural-divide-x">
             <ProjectCard project={projects[2]} onViewDetails={setOpenProject} />
-            <div className="hidden md:block" />
+            <ProjectCard project={projects[3]} onViewDetails={setOpenProject} />
           </div>
 
           {/* ── UPCOMING WORK ── */}

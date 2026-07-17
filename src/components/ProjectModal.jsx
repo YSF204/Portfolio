@@ -38,6 +38,8 @@ const TAG_ICONS = {
   'OAuth': <span className="text-[9px] font-bold text-zinc-500 dark:text-zinc-400">AUTH</span>,
   'shadcn/ui': <span className="text-[9px] font-bold text-zinc-500 dark:text-zinc-400">UI</span>,
   'Vapi AI': <span className="text-[9px] font-bold text-[#00b4d8]">Vapi</span>,
+  'Framer Motion': <span className="text-[9px] font-bold text-[#e94cff]">FM</span>,
+  'Vite': <span className="text-[9px] font-bold text-[#8B5CF6]">VITE</span>,
 }
 
 /* ─────────────────────────────────────────────
