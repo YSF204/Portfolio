@@ -177,7 +177,7 @@ export function ProjectModal({ project, onClose }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '16px',
+          padding: 'clamp(6px, 2vw, 16px)',
           pointerEvents: 'none',
         }}
       >
@@ -190,7 +190,7 @@ export function ProjectModal({ project, onClose }) {
           role="dialog"
           aria-modal="true"
           aria-label={`${project.title} details`}
-          className="flex h-[94vh] w-full max-w-[1120px] flex-col overflow-hidden rounded-[18px] border border-zinc-200/90 bg-[#f8f8f9] shadow-[0_0_0_1px_rgba(0,0,0,0.02),0_40px_100px_rgba(24,24,27,0.24)] dark:border-[#222226] dark:bg-[#0b0b0d] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_40px_100px_rgba(0,0,0,0.85)]"
+          className="flex h-[calc(100dvh-12px)] w-full max-w-[1120px] flex-col overflow-hidden rounded-[12px] border border-zinc-200/90 bg-[#f8f8f9] shadow-[0_0_0_1px_rgba(0,0,0,0.02),0_40px_100px_rgba(24,24,27,0.24)] dark:border-[#222226] dark:bg-[#0b0b0d] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_40px_100px_rgba(0,0,0,0.85)] sm:h-[94vh] sm:rounded-[18px]"
           style={{
             pointerEvents: 'auto',
           }}
@@ -247,7 +247,7 @@ export function ProjectModal({ project, onClose }) {
                 <div className="h-px structural-dashed-t structural-grid" />
 
                 <header className="flex flex-col gap-6 px-5 py-6 sm:px-8 sm:py-8">
-                  <div className="flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8B0000] dark:text-[#c44]">
+                  <div className="flex flex-wrap items-center justify-between gap-2 text-[9px] font-semibold uppercase tracking-[0.14em] text-[#8B0000] dark:text-[#c44] sm:text-[10px] sm:tracking-[0.18em]">
                     <span>Project case study</span>
                     <span className="font-mono text-zinc-400 dark:text-[#666]">Selected work / 01</span>
                   </div>

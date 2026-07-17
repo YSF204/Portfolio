@@ -24,7 +24,7 @@ export function TechStack() {
         <div className="w-full h-[1px] structural-dashed-b structural-grid relative z-10"></div>
       </AnimatedRow>
 
-      <AnimatedRow bottomBorder={true} containerClass="px-8 sm:px-10 py-10">
+      <AnimatedRow bottomBorder={true} containerClass="px-5 sm:px-10 py-8 sm:py-10">
         <div className="flex flex-wrap gap-2 justify-center">
           {techs.map(({ icon, name }) => (
             <div

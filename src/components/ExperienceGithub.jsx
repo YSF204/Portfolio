@@ -72,8 +72,8 @@ function ExperienceEntry({ exp, index }) {
           </p>
         </div>
 
-        <div className="border-t border-dashed border-[#8B0000]/30 px-5 py-5 dark:border-[#600000] sm:border-l sm:border-t-0 sm:px-6 sm:py-7">
-          <div className="flex items-start gap-4">
+        <div className="border-t border-dashed border-[#8B0000]/30 px-4 py-5 dark:border-[#600000] sm:border-l sm:border-t-0 sm:px-6 sm:py-7">
+          <div className="flex items-start gap-3 sm:gap-4">
             <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-[10px] border border-dashed border-[#8B0000]/45 bg-white dark:border-[#600000] dark:bg-[#111114]">
               {exp.logoType === 'image' ? (
                 <img src={exp.logo} alt="" className="h-7 w-7 object-contain" />
@@ -84,7 +84,7 @@ function ExperienceEntry({ exp, index }) {
 
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                <h3 className="m-0 text-[17px] font-semibold leading-tight tracking-[-0.02em] text-zinc-900 dark:text-[#f3f3f3]">
+                <h3 className="m-0 text-[15px] font-semibold leading-tight text-zinc-900 dark:text-[#f3f3f3] sm:text-[17px]">
                   {exp.role}
                 </h3>
                 <span className={`rounded-full border px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.12em] ${
@@ -103,7 +103,7 @@ function ExperienceEntry({ exp, index }) {
           </div>
         </div>
 
-        <div className="flex items-center justify-center border-l border-t border-dashed border-[#8B0000]/30 px-4 dark:border-[#600000] sm:border-t-0">
+        <div className="flex items-center justify-center border-l border-t border-dashed border-[#8B0000]/30 px-3 dark:border-[#600000] sm:border-t-0 sm:px-4">
           <Motion.span
             animate={{ rotate: open ? 180 : 0 }}
             transition={{ duration: 0.28, ease: 'easeInOut' }}
@@ -184,7 +184,7 @@ export function ExperienceGithub({ theme }) {
       <AnimatedRow dotPattern={true} topBorder={false} bottomBorder={false}>
         <SectionTitle kicker="The work continues" title="GitHub Activity" />
       </AnimatedRow>
-      <AnimatedRow containerClass="p-8 overflow-hidden" topBorder={true} bottomBorder={false}>
+      <AnimatedRow containerClass="overflow-hidden px-3 py-6 sm:p-8" topBorder={true} bottomBorder={false}>
         <div className="flex w-full max-w-full flex-col items-center overflow-x-hidden pb-2">
           <div className="flex w-full justify-center overflow-hidden [&_article]:w-full [&_svg]:h-auto [&_svg]:w-full [&_svg]:max-w-[700px]">
             <GitHubCalendar

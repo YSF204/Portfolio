@@ -117,33 +117,33 @@ export function Footer({ theme }) {
         </p>
 
         {/* ── pic ── line ── [Let's Connect] ── line ── guest ── */}
-        <div className="group flex items-center justify-center mt-8 w-full max-w-[460px] mx-auto">
+        <div className="group mx-auto mt-8 flex w-full max-w-[460px] items-center justify-center gap-2 sm:gap-0">
 
           {/* My photo — slides RIGHT toward button on hover */}
-          <div className="flex-shrink-0 w-[68px] h-[68px] rounded-full overflow-hidden ring-2 ring-[#8B0000]/40 shadow-md cursor-pointer z-10 bg-[#f8f8f9] dark:bg-[#0b0b0d]
+          <div className="z-10 h-[52px] w-[52px] flex-shrink-0 cursor-pointer overflow-hidden rounded-full bg-[#f8f8f9] shadow-md ring-2 ring-[#8B0000]/40 dark:bg-[#0b0b0d] sm:h-[68px] sm:w-[68px]
                           translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]
                           group-hover:translate-x-5">
             <img src={YousefImg} alt="Yousef AL Bakri" className="w-full h-full object-cover" />
           </div>
 
           {/* Left line */}
-          <ConnectingLine side="left" theme={theme} />
+          <div className="hidden min-[420px]:contents"><ConnectingLine side="left" theme={theme} /></div>
 
           {/* Button */}
           <div className="flex-shrink-0 z-10">
             <Button
               onClick={() => window.location.href = 'mailto:Yousef204b@gmail.com'}
-              className="px-6 py-2.5 whitespace-nowrap"
+              className="whitespace-nowrap px-4 py-2.5 sm:px-6"
             >
               Let's Connect
             </Button>
           </div>
 
           {/* Right line */}
-          <ConnectingLine side="right" theme={theme} />
+          <div className="hidden min-[420px]:contents"><ConnectingLine side="right" theme={theme} /></div>
 
           {/* Guest avatar — slides LEFT toward button on hover */}
-          <div className="flex-shrink-0 w-[68px] h-[68px] rounded-full overflow-hidden ring-2 ring-[#8B0000]/40 shadow-md cursor-pointer z-10 bg-[#f8f8f9] dark:bg-[#0b0b0d]
+          <div className="z-10 h-[52px] w-[52px] flex-shrink-0 cursor-pointer overflow-hidden rounded-full bg-[#f8f8f9] shadow-md ring-2 ring-[#8B0000]/40 dark:bg-[#0b0b0d] sm:h-[68px] sm:w-[68px]
                           translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]
                           group-hover:-translate-x-5">
             <GuestAvatar />

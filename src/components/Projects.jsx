@@ -174,14 +174,14 @@ const projects = [
 /* ── Single project card ── */
 function ProjectCard({ project, onViewDetails }) {
   return (
-    <div className="flex flex-col gap-4 p-6 group">
+    <div className="flex flex-col gap-4 p-4 sm:p-6 group">
       {/* Screenshot Frame */}
       <div className="rounded-2xl p-1.5 bg-zinc-50 dark:bg-[#121214] border border-zinc-200/70 dark:border-[#212126] shadow-sm transition-all duration-300 group-hover:border-[#8B0000]/35 dark:group-hover:border-[#8B0000]/25 group-hover:shadow-[0_4px_20px_rgba(139,0,0,0.03)] dark:group-hover:shadow-[0_4px_24px_rgba(139,0,0,0.05)]">
         <div className="rounded-xl overflow-hidden border border-zinc-200/40 dark:border-zinc-800/40 bg-zinc-100 dark:bg-[#111114]">
           <img
             src={project.image}
             alt={project.title}
-            className="w-full h-[160px] object-cover block transition-transform duration-500 group-hover:scale-[1.03]"
+            className="block h-[140px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03] sm:h-[160px]"
           />
         </div>
       </div>
@@ -272,10 +272,10 @@ function UpcomingProjectsStrip() {
         <p className="sr-only">Shipping more projects soon.</p>
       </div>
 
-      <div className="mt-3 flex items-center justify-center gap-3 text-[10px] text-zinc-400 dark:text-[#666]">
-        <span className="h-px w-8 bg-[#8B0000]/35 dark:bg-[#600000]" />
+      <div className="mt-3 flex items-center justify-center gap-2 text-center text-[10px] leading-4 text-zinc-400 dark:text-[#666] sm:gap-3">
+        <span className="h-px w-4 shrink-0 bg-[#8B0000]/35 dark:bg-[#600000] sm:w-8" />
         <span>New ideas are being designed, built, and tested.</span>
-        <span className="h-px w-8 bg-[#8B0000]/35 dark:bg-[#600000]" />
+        <span className="h-px w-4 shrink-0 bg-[#8B0000]/35 dark:bg-[#600000] sm:w-8" />
       </div>
     </div>
   )
