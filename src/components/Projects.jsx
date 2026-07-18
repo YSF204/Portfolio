@@ -124,7 +124,7 @@ const projects = [
     live: '#',
   },
   {
-    title: 'Feel Alive',
+    title: 'Feel Alive - Landing Page',
     description: 'An immersive editorial landing page that turns a botanical collection into a cinematic, scroll-led visual experience about motion, presence, and discovery.',
     tags: ['React', 'Tailwind CSS', 'Framer Motion', 'Vite'],
     image: feelAliveImg,

@@ -10,6 +10,8 @@ import ClickSpark from './components/ClickSpark'
 import GradualBlur from './components/GradualBlur'
 import LineSidebar from './components/LineSidebar'
 import DotField from './components/DotField'
+import { ScrollManifesto } from './components/ScrollManifesto'
+import { KaizenSignature } from './components/KaizenSignature'
 
 const SECTIONS = ['overview', 'tech-stack', 'projects', 'experience'];
 
@@ -113,7 +115,7 @@ function App() {
       sparkCount={8}
       duration={400}
     >
-      <div className="min-h-screen font-sans transition-colors duration-300 overflow-x-hidden w-full bg-[#f8f8f9] dark:bg-[#0b0b0d] text-zinc-900 dark:text-[#f3f3f3] structural-grid relative pt-6">
+      <div className="min-h-screen font-sans transition-colors duration-300 overflow-x-clip w-full bg-[#f8f8f9] dark:bg-[#0b0b0d] text-zinc-900 dark:text-[#f3f3f3] structural-grid relative pt-6">
         {/* Global continuous vertical boundaries */}
         <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-[760px] h-full pointer-events-none z-0 structural-dashed-x" />
         
@@ -168,6 +170,7 @@ function App() {
           <div id="overview" className="w-full flex flex-col items-center">
             <TopHeader />
             <ProfileHeader theme={theme} toggleTheme={toggleTheme} />
+            <ScrollManifesto />
           </div>
           <div id="tech-stack" className="w-full flex flex-col items-center">
             <TechStack />
@@ -177,6 +180,7 @@ function App() {
           </div>
           <div id="experience" className="w-full flex flex-col items-center">
             <ExperienceGithub theme={theme} />
+            <KaizenSignature />
           </div>
           <Footer theme={theme} />
         </div>

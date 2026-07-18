@@ -1,0 +1,82 @@
+.kaizen-word {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition:
+    left 520ms cubic-bezier(0.16, 1, 0.3, 1),
+    top 520ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kaizen-card {
+  right: 5%;
+  top: 50%;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(28px, -50%) scale(0.96);
+  transition:
+    opacity 320ms ease,
+    transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.kaizen-signature:hover .kaizen-word,
+.kaizen-signature:focus .kaizen-word {
+  left: 25%;
+}
+
+.kaizen-signature:hover .kaizen-foreground,
+.kaizen-signature:focus .kaizen-foreground {
+  color: #18181b;
+  transform: translate(0, 0);
+}
+
+.dark .kaizen-signature:hover .kaizen-foreground,
+.dark .kaizen-signature:focus .kaizen-foreground {
+  color: #f4f4f5;
+}
+
+.kaizen-signature:hover .kaizen-card,
+.kaizen-signature:focus .kaizen-card {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(0, -50%) scale(1);
+}
+
+@media (max-width: 640px) {
+  .kaizen-signature {
+    height: 390px;
+  }
+
+  .kaizen-word {
+    top: 47%;
+  }
+
+  .kaizen-card {
+    right: 1rem;
+    bottom: 1rem;
+    left: 1rem;
+    top: auto;
+    width: auto;
+    transform: translateY(20px) scale(0.97);
+  }
+
+  .kaizen-signature:hover .kaizen-word,
+  .kaizen-signature:focus .kaizen-word {
+    left: 50%;
+    top: 25%;
+    transform: translate(-50%, -50%) scale(0.68);
+  }
+
+  .kaizen-signature:hover .kaizen-card,
+  .kaizen-signature:focus .kaizen-card {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kaizen-word,
+  .kaizen-card,
+  .kaizen-foreground {
+    transition: none;
+  }
+}
