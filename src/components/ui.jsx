@@ -1,6 +1,53 @@
 import { motion as Motion } from 'framer-motion'
 import { Sun, Moon } from 'lucide-react'
 
+let themeAudioContext
+
+function playThemeTick() {
+  const AudioContext = window.AudioContext || window.webkitAudioContext
+  if (!AudioContext) return
+
+  try {
+    themeAudioContext ??= new AudioContext()
+    if (themeAudioContext.state === 'suspended') {
+      void themeAudioContext.resume()
+    }
+
+    const now = themeAudioContext.currentTime
+    const duration = 0.016
+    const buffer = themeAudioContext.createBuffer(
+      1,
+      Math.ceil(themeAudioContext.sampleRate * duration),
+      themeAudioContext.sampleRate,
+    )
+    const samples = buffer.getChannelData(0)
+
+    for (let index = 0; index < samples.length; index += 1) {
+      const envelope = (1 - index / samples.length) ** 4
+      samples[index] = (Math.random() * 2 - 1) * envelope
+    }
+
+    const source = themeAudioContext.createBufferSource()
+    const filter = themeAudioContext.createBiquadFilter()
+    const gain = themeAudioContext.createGain()
+
+    source.buffer = buffer
+    filter.type = 'bandpass'
+    filter.frequency.setValueAtTime(2100, now)
+    filter.Q.setValueAtTime(0.7, now)
+    gain.gain.setValueAtTime(0.1, now)
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration)
+
+    source.connect(filter)
+    filter.connect(gain)
+    gain.connect(themeAudioContext.destination)
+    source.start(now)
+    source.stop(now + duration)
+  } catch {
+    // Theme switching should still work when browser audio is unavailable.
+  }
+}
+
 export function AnimatedRow({ children, className = '', containerClass = '', dotPattern = false, bottomBorder = true, topBorder = false, ...props }) {
   return (
     <Motion.section
@@ -66,9 +113,14 @@ export function Button({ children, className = '', variant = 'default', ...props
 }
 
 export function ThemeToggle({ theme, toggleTheme }) {
+  const handleClick = (event) => {
+    playThemeTick()
+    toggleTheme(event)
+  }
+
   return (
     <button
-      onClick={toggleTheme}
+      onClick={handleClick}
       className="group absolute top-4 right-4 w-9 h-9 rounded-full border border-dashed border-[#8B0000]/70 dark:border-[#600000] bg-white dark:bg-[#0d0d0f] flex items-center justify-center text-zinc-400 dark:text-[#777] hover:text-zinc-900 dark:hover:text-white hover:border-[#8B0000] dark:hover:border-[#8B0000] hover:scale-110 transition-all duration-200 z-20"
       aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
       title={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
