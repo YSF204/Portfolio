@@ -34,14 +34,14 @@ export function KaizenSignature() {
         </div>
       </div>
 
-      <div className="kaizen-card absolute z-20 w-[min(430px,56%)] rounded-2xl border border-zinc-200 bg-[#f8f8f9]/95 p-6 shadow-[0_22px_55px_rgba(24,24,27,0.16)] backdrop-blur-md dark:border-[#28282e] dark:bg-[#121214]/95 dark:shadow-[0_22px_55px_rgba(0,0,0,0.52)] sm:p-7">
-        <div className="flex items-baseline gap-4">
+      <div className="kaizen-card absolute z-20 w-[min(220px,29%)] rounded-2xl border border-zinc-200 bg-[#f8f8f9]/95 p-4 shadow-[0_22px_55px_rgba(24,24,27,0.16)] backdrop-blur-md dark:border-[#28282e] dark:bg-[#121214]/95 dark:shadow-[0_22px_55px_rgba(0,0,0,0.52)] sm:p-5">
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
           <strong className="text-2xl text-zinc-900 dark:text-[#f3f3f3]">改善</strong>
           <span className="text-sm italic text-zinc-400 dark:text-[#777]">/kaizen/</span>
         </div>
-        <div className="my-5 h-px structural-dashed-t structural-grid" />
+        <div className="my-4 h-px structural-dashed-t structural-grid" />
         <p className="m-0 text-[11px] font-semibold uppercase text-[#8B0000] dark:text-[#c44]">Noun</p>
-        <p className="mb-0 mt-2 text-[15px] leading-7 text-zinc-600 dark:text-[#a2a2ab]">
+        <p className="mb-0 mt-2 text-[13px] leading-5 text-zinc-600 dark:text-[#a2a2ab]">
           Continuous improvement; changing for the better.
         </p>
       </div>

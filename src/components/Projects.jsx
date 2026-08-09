@@ -3,7 +3,7 @@ import { AnimatedRow, SectionTitle } from './ui'
 import { Globe, ArrowRight } from 'lucide-react'
 import {
   SiReact, SiNextdotjs, SiNodedotjs, SiExpress, SiMongodb,
-  SiTailwindcss, SiTypescript, SiJsonwebtokens, SiRedis,
+  SiTailwindcss, SiTypescript, SiJsonwebtokens, SiRedis, SiPostgresql, SiDocker,
   SiOpenai, SiClerk, SiElevenlabs, SiGooglegemini
 } from 'react-icons/si'
 import { ProjectModal } from './ProjectModal'
@@ -12,6 +12,7 @@ import aicrsImg from '../assets/AICRS.png'
 import spokenPagesImg from '../assets/SpokenPages.png'
 import flashcardImg from '../assets/flashcard.png'
 import feelAliveImg from '../assets/FeelAlive.png'
+import eventlineImg from '../assets/eventline.png'
 
 /* ── Inline GitHub icon (not exported by this lucide-react version) ── */
 function GithubIcon({ size = 15, className = '' }) {
@@ -35,6 +36,8 @@ const TAG_ICONS = {
   'TypeScript': <SiTypescript size={13} className="text-[#3178C6]" />,
   'JWT': <SiJsonwebtokens size={13} className="text-[#d63aff]" />,
   'Redis': <SiRedis size={13} className="text-[#DC382D]" />,
+  'PostgreSQL': <SiPostgresql size={13} className="text-[#336791]" />,
+  'Docker': <SiDocker size={13} className="text-[#2496ED]" />,
   'OpenAI API': <SiOpenai size={13} className="text-[#10a37f]" />,
   'Clerk Authentication': <SiClerk size={13} className="text-[#6C47FF]" />,
   'ElevenLabs': <SiElevenlabs size={13} className="dark:text-white text-black" />,
@@ -169,6 +172,53 @@ const projects = [
       },
     ],
   },
+  {
+    title: 'Eventline — Log Ingestion',
+    description: 'A high-throughput log ingestion and observability service that accepts structured batches, delivers filterable log search with cursor pagination, and powers a live operational dashboard.',
+    tags: ['TypeScript', 'Express.js', 'PostgreSQL', 'Docker', 'Vite'],
+    image: eventlineImg,
+    imageFit: 'contain',
+    github: 'https://github.com/YSF204/Log-Ingestion-and-Query-Service',
+    live: '#',
+    sections: [
+      {
+        id: 'ingestion',
+        label: 'Ingestion',
+        title: 'Fast, resilient batch ingestion',
+        body: 'Eventline validates every structured log entry independently, persists accepted records through PostgreSQL COPY, and updates one-minute rollups in the same transaction. That lets valid logs continue through even when a batch contains rejected entries.',
+        points: [
+          'Structured POST /logs batches with per-entry validation',
+          'PostgreSQL COPY ingestion with grouped rollup upserts',
+          'Partial batch acceptance with clear rejection feedback',
+          'Sustained 15,000 logs per second in the documented workload',
+        ],
+      },
+      {
+        id: 'querying',
+        label: 'Querying',
+        title: 'Searchable logs and efficient aggregates',
+        body: 'The API supports service, severity, time-range, message, and arbitrary attribute filters. Cursor-based results stay stable through timestamp and ID ordering, while time-bucketed rollups keep primary aggregate queries fast.',
+        points: [
+          'Filtered log search with opaque cursor pagination',
+          'Time buckets grouped by service or severity',
+          'JSONB attributes for flexible structured metadata',
+          'Parameterized SQL and validated query allowlists',
+        ],
+      },
+      {
+        id: 'operations',
+        label: 'Operations',
+        title: 'Eventline makes system signals visible',
+        body: 'The built-in Eventline dashboard is served with the API and turns live log data into operational context: volume, current rate, error ratio, active services, severity mix, timeline views, exploration, and batch ingestion controls.',
+        points: [
+          'Live dashboard with manual or 15-second refresh',
+          'Log explorer, JSON export, and event inspection',
+          'Batch-ingestion console for the production API format',
+          'Docker Compose startup with PostgreSQL as the source of truth',
+        ],
+      },
+    ],
+  },
 ]
 
 /* ── Single project card ── */
@@ -177,11 +227,11 @@ function ProjectCard({ project, onViewDetails }) {
     <div className="flex flex-col gap-4 p-4 sm:p-6 group">
       {/* Screenshot Frame */}
       <div className="rounded-2xl p-1.5 bg-zinc-50 dark:bg-[#121214] border border-zinc-200/70 dark:border-[#212126] shadow-sm transition-all duration-300 group-hover:border-[#8B0000]/35 dark:group-hover:border-[#8B0000]/25 group-hover:shadow-[0_4px_20px_rgba(139,0,0,0.03)] dark:group-hover:shadow-[0_4px_24px_rgba(139,0,0,0.05)]">
-        <div className="rounded-xl overflow-hidden border border-zinc-200/40 dark:border-zinc-800/40 bg-zinc-100 dark:bg-[#111114]">
+        <div className="rounded-xl overflow-hidden border border-zinc-200/40 bg-zinc-100 dark:border-zinc-800/40 dark:bg-[#111114]">
           <img
             src={project.image}
             alt={project.title}
-            className="block h-[140px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03] sm:h-[160px]"
+            className={`block h-[140px] w-full transition-transform duration-500 group-hover:scale-[1.03] sm:h-[160px] ${project.imageFit === 'contain' ? 'object-contain bg-black' : 'object-cover'}`}
           />
         </div>
       </div>
@@ -262,17 +312,17 @@ function UpcomingProjectsStrip() {
         <span className="font-mono text-[9px] text-zinc-400 dark:text-[#555]">05 / NEXT</span>
       </div>
 
-      <div className="shipping-soon-frame group relative overflow-hidden py-1">
+      <div className="shipping-soon-frame group relative z-10 py-1 pb-2">
         <p
           aria-hidden="true"
-          className="shipping-soon-word m-0 whitespace-nowrap text-center leading-none transition-all duration-500"
+          className="shipping-soon-word m-0 whitespace-nowrap text-center leading-[1.1] transition-all duration-500"
         >
           Shipping More Soon
         </p>
         <p className="sr-only">Shipping more projects soon.</p>
       </div>
 
-      <div className="mt-3 flex items-center justify-center gap-2 text-center text-[10px] leading-4 text-zinc-400 dark:text-[#666] sm:gap-3">
+      <div className="relative z-10 mt-5 flex items-center justify-center gap-2 text-center text-[10px] leading-4 text-zinc-400 dark:text-[#666] sm:gap-3">
         <span className="h-px w-4 shrink-0 bg-[#8B0000]/35 dark:bg-[#600000] sm:w-8" />
         <span>New ideas are being designed, built, and tested.</span>
         <span className="h-px w-4 shrink-0 bg-[#8B0000]/35 dark:bg-[#600000] sm:w-8" />
@@ -312,6 +362,13 @@ export function ProjectsSection() {
           <div className="grid grid-cols-1 md:grid-cols-2 structural-divide-x">
             <ProjectCard project={projects[2]} onViewDetails={setOpenProject} />
             <ProjectCard project={projects[3]} onViewDetails={setOpenProject} />
+          </div>
+
+          <div className="w-full h-[1px] structural-dashed-t structural-grid" />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 structural-divide-x">
+            <ProjectCard project={projects[4]} onViewDetails={setOpenProject} />
+            <div aria-hidden="true" />
           </div>
 
           {/* ── UPCOMING WORK ── */}

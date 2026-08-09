@@ -7,7 +7,6 @@ import { TechStack } from './components/TechStack'
 import { ExperienceGithub } from './components/ExperienceGithub'
 import { Footer } from './components/Footer'
 import ClickSpark from './components/ClickSpark'
-import GradualBlur from './components/GradualBlur'
 import LineSidebar from './components/LineSidebar'
 import DotField from './components/DotField'
 import { ScrollManifesto } from './components/ScrollManifesto'
@@ -185,13 +184,6 @@ function App() {
           <Footer theme={theme} />
         </div>
 
-        <GradualBlur
-          target="page"
-          position="bottom"
-          height="8rem"
-          strength={1.5}
-          divCount={5}
-        />
       </div>
     </ClickSpark>
   )

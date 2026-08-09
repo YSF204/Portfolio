@@ -7,7 +7,7 @@ import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ReactLenis root options={{ autoRaf: true }}>
+    <ReactLenis root options={{ autoRaf: true, duration: 0.7 }}>
       <App />
     </ReactLenis>
   </StrictMode>,
