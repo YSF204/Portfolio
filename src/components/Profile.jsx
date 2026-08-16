@@ -3,7 +3,6 @@ import { SiNextdotjs, SiReact, SiTailwindcss, SiExpress, SiMongodb, SiPostgresql
 import { MdVerified } from 'react-icons/md'
 import { PiLinkedinLogoLight, PiReadCvLogoThin, PiGithubLogoLight } from 'react-icons/pi'
 import YousefImg from '../assets/Yousef.png'
-import cvFile from '../assets/cv/Yousef-ALBakri.pdf'
 import RotatingText from './RotatingText'
 import PixelTransition from './PixelTransition'
 
@@ -80,7 +79,7 @@ export function ProfileHeader({ theme, toggleTheme }) {
           <div className="absolute top-0 left-0 w-full h-[1px] structural-dashed-t structural-grid z-10"></div>
 
           <div className="flex items-center justify-center px-1 py-4 sm:p-5 relative z-20">
-            <a href={cvFile} download="Yousef-ALBakri.pdf" className="inline-flex flex-col items-center gap-1 text-center text-zinc-600 dark:text-[#a2a2ab] text-[10px] sm:flex-row sm:gap-2 sm:text-[13px] font-medium transition-colors hover:text-zinc-900 dark:hover:text-white">
+            <a href="https://drive.google.com/file/d/1EEtSkJkx30AsPH_jLmZvPP2tiCzJ9KRr/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="inline-flex flex-col items-center gap-1 text-center text-zinc-600 dark:text-[#a2a2ab] text-[10px] sm:flex-row sm:gap-2 sm:text-[13px] font-medium transition-colors hover:text-zinc-900 dark:hover:text-white">
               <PiReadCvLogoThin size={18} /> <span>CV / Resume</span>
             </a>
           </div>
