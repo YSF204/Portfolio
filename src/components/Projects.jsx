@@ -231,6 +231,8 @@ function ProjectCard({ project, onViewDetails }) {
           <img
             src={project.image}
             alt={project.title}
+            loading="lazy"
+            decoding="async"
             className={`block h-[140px] w-full transition-transform duration-500 group-hover:scale-[1.03] sm:h-[160px] ${project.imageFit === 'contain' ? 'object-contain bg-black' : 'object-cover'}`}
           />
         </div>

@@ -16,7 +16,7 @@ export function ProfileHeader({ theme, toggleTheme }) {
           <div className="w-[82px] h-[120px] rounded-[14px] bg-white dark:bg-[#111] flex-shrink-0 p-[3px] shadow-sm relative">
             <PixelTransition
               firstContent={
-                <img src={YousefImg} alt="Yousef AL Bakri" className="w-full h-full object-cover rounded-[11px]" />
+                <img src={YousefImg} alt="Yousef AL Bakri" width={82} height={120} fetchPriority="high" className="w-full h-full object-cover rounded-[11px]" />
               }
               secondContent={
                 <div className="w-full h-full bg-[#8B0000] dark:bg-[#600000] rounded-[11px] flex items-center justify-center">

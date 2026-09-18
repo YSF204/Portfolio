@@ -70,7 +70,7 @@ export function Footer({ theme }) {
           <div className="z-10 h-[52px] w-[52px] flex-shrink-0 cursor-pointer overflow-hidden rounded-full bg-[#f8f8f9] shadow-md ring-2 ring-[#8B0000]/40 dark:bg-[#0b0b0d] sm:h-[68px] sm:w-[68px]
                           translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]
                           group-hover:translate-x-5">
-            <img src={YousefImg} alt="Yousef AL Bakri" className="w-full h-full object-cover" />
+            <img src={YousefImg} alt="Yousef AL Bakri" loading="lazy" decoding="async" className="w-full h-full object-cover" />
           </div>
 
           {/* Left line */}

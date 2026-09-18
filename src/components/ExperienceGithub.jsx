@@ -76,7 +76,7 @@ function ExperienceEntry({ exp, index }) {
           <div className="flex items-start gap-3 sm:gap-4">
             <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-[10px] border border-dashed border-[#8B0000]/45 bg-white dark:border-[#600000] dark:bg-[#111114]">
               {exp.logoType === 'image' ? (
-                <img src={exp.logo} alt="" className="h-7 w-7 object-contain" />
+                <img src={exp.logo} alt="" loading="lazy" decoding="async" className="h-7 w-7 object-contain" />
               ) : (
                 <span className="text-sm font-bold text-[#8B0000] dark:text-[#c44]">{exp.logoInitial}</span>
               )}

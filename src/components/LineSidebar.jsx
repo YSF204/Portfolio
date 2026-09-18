@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 
 export default function LineSidebar({
@@ -21,28 +21,41 @@ export default function LineSidebar({
   activeItemIndex,
   onItemClick
 }) {
-  const [active, setActive] = useState(defaultActive);
+  const [uncontrolledActive, setUncontrolledActive] = useState(defaultActive);
   const containerRef = useRef(null);
   const [mouseY, setMouseY] = useState(null);
+  // Item positions and the container's own offset only need measuring when the
+  // pointer arrives — they can't change while it stays inside.
+  const [bounds, setBounds] = useState(null);
 
-  useEffect(() => {
-    if (activeItemIndex !== undefined) {
-      setActive(activeItemIndex);
-    }
-  }, [activeItemIndex]);
+  // Derived, not mirrored into state: scrolling updates activeItemIndex on
+  // every frame, and copying it through an effect doubled the renders.
+  const active = activeItemIndex ?? uncontrolledActive;
+
+  const handleMouseEnter = () => {
+    const el = containerRef.current;
+    if (!el) return;
+    setBounds({
+      top: el.getBoundingClientRect().top,
+      centers: Array.from(
+        el.querySelectorAll('button'),
+        (b) => b.offsetTop + b.offsetHeight / 2,
+      ),
+    });
+  };
 
   const handleMouseMove = (e) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    setMouseY(e.clientY - rect.top);
+    if (!bounds) return;
+    setMouseY(e.clientY - bounds.top);
   };
 
   const handleMouseLeave = () => {
+    setBounds(null);
     setMouseY(null);
   };
 
   const handleClick = (index, label) => {
-    setActive(index);
+    setUncontrolledActive(index);
     if (onItemClick) onItemClick(index, label);
   };
 
@@ -51,6 +64,7 @@ export default function LineSidebar({
       ref={containerRef}
       className="relative flex flex-col items-end py-4"
       style={{ gap: itemGap }}
+      onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
@@ -66,7 +80,11 @@ export default function LineSidebar({
             item={item}
             index={i}
             isActive={isActive}
-            mouseY={mouseY}
+            distance={
+              mouseY === null || !bounds
+                ? Infinity
+                : Math.abs(mouseY - bounds.centers[i])
+            }
             onClick={() => handleClick(i, item)}
             accentColor={accentColor}
             textColor={textColor}
@@ -90,7 +108,7 @@ function SidebarItem({
   item,
   index,
   isActive,
-  mouseY,
+  distance,
   onClick,
   accentColor,
   textColor,
@@ -104,22 +122,6 @@ function SidebarItem({
   scaleTick,
   fontSize
 }) {
-  const itemRef = useRef(null);
-  const [distance, setDistance] = useState(Infinity);
-
-  useEffect(() => {
-    if (mouseY === null || !itemRef.current) {
-      setDistance(Infinity);
-      return;
-    }
-    const rect = itemRef.current.getBoundingClientRect();
-    const parentRect = itemRef.current.parentElement.getBoundingClientRect();
-    const localItemY = (rect.top - parentRect.top) + rect.height / 2;
-    
-    const dist = Math.abs(mouseY - localItemY);
-    setDistance(dist);
-  }, [mouseY]);
-
   let shift = 0;
   if (distance < proximityRadius) {
     const factor = 1 - distance / proximityRadius;
@@ -128,7 +130,6 @@ function SidebarItem({
 
   return (
     <motion.button
-      ref={itemRef}
       onClick={onClick}
       className="relative flex items-center justify-end group transition-colors duration-200 hover:text-zinc-900 dark:hover:text-white"
       style={{ paddingRight: 24, minHeight: 24 }}

@@ -30,27 +30,39 @@ function App() {
   }, [theme])
 
   useEffect(() => {
-    const handleScroll = () => {
+    const els = SECTIONS.map((id) => document.getElementById(id));
+    let frame = 0;
+
+    const measure = () => {
+      frame = 0;
       let current = 0;
       let minDistance = Infinity;
-      SECTIONS.forEach((id, index) => {
-        const el = document.getElementById(id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          // Find the section closest to the top of the viewport
-          const distance = Math.abs(rect.top);
-          // Only consider it if it's somewhat in view
-          if (distance < minDistance && rect.top < window.innerHeight / 2) {
-            minDistance = distance;
-            current = index;
-          }
+      const half = window.innerHeight / 2;
+      els.forEach((el, index) => {
+        if (!el) return;
+        const top = el.getBoundingClientRect().top;
+        // Find the section closest to the top of the viewport
+        const distance = Math.abs(top);
+        // Only consider it if it's somewhat in view
+        if (distance < minDistance && top < half) {
+          minDistance = distance;
+          current = index;
         }
       });
       setActiveSection(current);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    // Scroll fires far more often than the screen repaints; coalesce to one
+    // layout read per frame instead of one per event.
+    const handleScroll = () => {
+      if (!frame) frame = requestAnimationFrame(measure);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, []);
 
   const toggleTheme = (event) => {
