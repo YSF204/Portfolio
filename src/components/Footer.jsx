@@ -1,4 +1,7 @@
+import { useState } from 'react'
+import { ChevronDown } from 'lucide-react'
 import { AnimatedRow, Button } from './ui'
+import { ContactForm } from './ContactForm'
 import YousefImg from '../assets/Yousef.png'
 
 /* Guest silhouette */
@@ -57,6 +60,8 @@ function ConnectingLine({ side = 'left', theme }) {
 }
 
 export function Footer({ theme }) {
+  const [formOpen, setFormOpen] = useState(false)
+
   return (
       <AnimatedRow containerClass="text-center py-16 px-4" bottomBorder={false} className="!border-b-0">
         <p className="text-[14px] text-zinc-600 dark:text-[#a2a2ab]">
@@ -70,7 +75,7 @@ export function Footer({ theme }) {
           <div className="z-10 h-[52px] w-[52px] flex-shrink-0 cursor-pointer overflow-hidden rounded-full bg-[#f8f8f9] shadow-md ring-2 ring-[#8B0000]/40 dark:bg-[#0b0b0d] sm:h-[68px] sm:w-[68px]
                           translate-x-0 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]
                           group-hover:translate-x-5">
-            <img src={YousefImg} alt="Yousef AL Bakri" className="w-full h-full object-cover" />
+            <img src={YousefImg} alt="Yousef AL Bakri" loading="lazy" decoding="async" className="w-full h-full object-cover" />
           </div>
 
           {/* Left line */}
@@ -79,10 +84,16 @@ export function Footer({ theme }) {
           {/* Button */}
           <div className="flex-shrink-0 z-10">
             <Button
-              onClick={() => window.location.href = 'mailto:Yousef204b@gmail.com'}
+              onClick={() => setFormOpen((value) => !value)}
+              aria-expanded={formOpen}
+              aria-controls="contact-form"
               className="whitespace-nowrap px-4 py-2.5 sm:px-6"
             >
               Let's Connect
+              <ChevronDown
+                size={13}
+                className={`transition-transform duration-300 ${formOpen ? 'rotate-180' : ''}`}
+              />
             </Button>
           </div>
 
@@ -97,13 +108,17 @@ export function Footer({ theme }) {
           </div>
         </div>
 
-        <blockquote className="mt-14 text-[13px] italic text-zinc-500 leading-relaxed">
+        <div id="contact-form">
+          <ContactForm open={formOpen} />
+        </div>
+
+        <blockquote className="mx-auto mt-14 max-w-[46ch] text-[15px] italic leading-relaxed text-zinc-500 dark:text-[#a2a2ab]">
           "Knowing yourself is the beginning of all wisdom."
-          <span className="block mt-2.5 font-semibold not-italic text-zinc-400">— Aristotle</span>
+          <span className="mt-3 block font-mono text-[11px] not-italic tracking-[0.14em] uppercase text-zinc-400 dark:text-[#7e7e89]">— Aristotle</span>
         </blockquote>
-        <div className="mt-12 text-[11px] text-zinc-500">
-          <p>Design and Developed by <span className="text-pink-500 font-medium cursor-pointer">Yousef AL-Bakri</span></p>
-          <p className="mt-1.5 text-zinc-400 dark:text-[#7e7e89]">2026 All rights reserved.</p>
+        <div className="mt-12 font-mono text-[10px] uppercase tracking-[0.12em] text-zinc-500 dark:text-[#7e7e89]">
+          <p>Designed and developed by <span className="font-medium text-[#8B0000] dark:text-[#c44]">Yousef AL-Bakri</span></p>
+          <p className="mt-2 text-zinc-400 dark:text-[#5f5f68]">© {new Date().getFullYear()} All rights reserved.</p>
         </div>
       </AnimatedRow>
   )

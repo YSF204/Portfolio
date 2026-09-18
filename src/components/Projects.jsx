@@ -223,14 +223,24 @@ const projects = [
 
 /* ── Single project card ── */
 function ProjectCard({ project, onViewDetails }) {
+  // Pointer position drives the card's glow through CSS custom properties, so
+  // moving the mouse never re-renders React.
+  const trackPointer = (event) => {
+    const bounds = event.currentTarget.getBoundingClientRect()
+    event.currentTarget.style.setProperty('--mx', `${event.clientX - bounds.left}px`)
+    event.currentTarget.style.setProperty('--my', `${event.clientY - bounds.top}px`)
+  }
+
   return (
-    <div className="flex flex-col gap-4 p-4 sm:p-6 group">
+    <div className="spotlight flex flex-col gap-4 p-4 sm:p-6 group" onMouseMove={trackPointer}>
       {/* Screenshot Frame */}
-      <div className="rounded-2xl p-1.5 bg-zinc-50 dark:bg-[#121214] border border-zinc-200/70 dark:border-[#212126] shadow-sm transition-all duration-300 group-hover:border-[#8B0000]/35 dark:group-hover:border-[#8B0000]/25 group-hover:shadow-[0_4px_20px_rgba(139,0,0,0.03)] dark:group-hover:shadow-[0_4px_24px_rgba(139,0,0,0.05)]">
+      <div className="card-raised rounded-2xl p-1.5 bg-zinc-50 dark:bg-[#121214] border border-zinc-200/70 dark:border-white/[0.06] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-[#8B0000]/35 dark:group-hover:border-[#8B0000]/30">
         <div className="rounded-xl overflow-hidden border border-zinc-200/40 bg-zinc-100 dark:border-zinc-800/40 dark:bg-[#111114]">
           <img
             src={project.image}
             alt={project.title}
+            loading="lazy"
+            decoding="async"
             className={`block h-[140px] w-full transition-transform duration-500 group-hover:scale-[1.03] sm:h-[160px] ${project.imageFit === 'contain' ? 'object-contain bg-black' : 'object-cover'}`}
           />
         </div>
@@ -275,7 +285,7 @@ function ProjectCard({ project, onViewDetails }) {
         {project.tags.map((tag) => (
           <span
             key={tag}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] border border-dashed border-[#8B0000]/70 dark:border-[#600000] text-zinc-600 dark:text-[#a2a2ab] text-[11px] font-medium select-none"
+            className="chip-dashed inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] text-zinc-600 dark:text-[#a2a2ab] text-[11px] font-medium select-none"
           >
             {TAG_ICONS[tag] || <span className="text-[10px] font-bold text-zinc-400">#</span>}
             {tag}
@@ -288,7 +298,7 @@ function ProjectCard({ project, onViewDetails }) {
         <button
           type="button"
           onClick={(e) => { e.preventDefault(); e.stopPropagation(); onViewDetails(project); }}
-          className="inline-flex items-center gap-1 text-[12px] font-medium text-zinc-400 dark:text-[#7e7e89] hover:text-zinc-900 dark:hover:text-white transition-colors group cursor-pointer"
+          className="focus-ring rounded-md inline-flex items-center gap-1 text-[12px] font-medium text-zinc-400 dark:text-[#7e7e89] hover:text-zinc-900 dark:hover:text-white transition-colors group cursor-pointer"
         >
           View Details
           <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
@@ -339,15 +349,15 @@ export function ProjectsSection() {
     <>
       {/* Section header */}
       <AnimatedRow dotPattern={true} topBorder={true} bottomBorder={false}>
-        <SectionTitle kicker="Featured" title="Projects" />
+        <SectionTitle kicker="Selected work" title="Projects" index="03" />
       </AnimatedRow>
 
       {/* Grid block — all cards in one section with explicit h-[1px] dashed dividers */}
       <div className="w-full flex justify-center">
-        <div className="w-full max-w-[760px] flex flex-col">
+        <div className="w-full max-w-(--shell) flex flex-col">
 
           {/* ── TOP line ── */}
-          <div className="w-full h-[1px] structural-dashed-t structural-grid" />
+          <div className="relative w-full h-[1px] structural-dashed-t structural-grid rail-cross" />
 
           {/* ── Row 1 ── */}
           <div className="grid grid-cols-1 md:grid-cols-2 structural-divide-x">
@@ -356,7 +366,7 @@ export function ProjectsSection() {
           </div>
 
           {/* ── MIDDLE line (crosses vertical = + sign) ── */}
-          <div className="w-full h-[1px] structural-dashed-t structural-grid" />
+          <div className="relative w-full h-[1px] structural-dashed-t structural-grid rail-cross" />
 
           {/* ── Row 2 ── */}
           <div className="grid grid-cols-1 md:grid-cols-2 structural-divide-x">
@@ -364,7 +374,7 @@ export function ProjectsSection() {
             <ProjectCard project={projects[3]} onViewDetails={setOpenProject} />
           </div>
 
-          <div className="w-full h-[1px] structural-dashed-t structural-grid" />
+          <div className="relative w-full h-[1px] structural-dashed-t structural-grid rail-cross" />
 
           <div className="grid grid-cols-1 md:grid-cols-2 structural-divide-x">
             <ProjectCard project={projects[4]} onViewDetails={setOpenProject} />

@@ -219,7 +219,7 @@ export function ProjectModal({ project, onClose }) {
               type="button"
               onClick={onClose}
               aria-label="Close modal"
-              className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border border-dashed border-[#8B0000]/50 bg-white/50 text-zinc-500 transition-all duration-200 hover:border-[#8B0000] hover:text-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8B0000] dark:bg-transparent dark:text-[#84848f] dark:hover:text-white"
+              className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full chip chip-interactive bg-white/50 text-zinc-500 transition-all duration-200 hover:text-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8B0000] dark:bg-transparent dark:text-[#84848f] dark:hover:text-white"
             >
               <X size={13} strokeWidth={2} />
             </button>
@@ -265,7 +265,7 @@ export function ProjectModal({ project, onClose }) {
                           href={project.github}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 rounded-lg border border-dashed border-[#8B0000]/60 bg-white px-3 py-1.5 text-[11px] font-semibold text-zinc-600 no-underline transition-colors hover:border-[#8B0000] hover:text-zinc-900 dark:bg-[#111114] dark:text-[#a2a2ab] dark:hover:text-white"
+                          className="inline-flex items-center gap-1.5 rounded-lg chip chip-interactive card-raised bg-white px-3 py-1.5 text-[11px] font-semibold text-zinc-600 no-underline transition-colors hover:text-zinc-900 dark:bg-[#111114] dark:text-[#a2a2ab] dark:hover:text-white"
                         >
                           <GithubIcon size={13} /> GitHub
                         </a>
@@ -275,7 +275,7 @@ export function ProjectModal({ project, onClose }) {
                           href={project.live}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 rounded-lg border border-dashed border-[#8B0000]/70 bg-[#8B0000]/5 px-3 py-1.5 text-[11px] font-semibold text-[#8B0000] no-underline transition-colors hover:bg-[#8B0000]/10 dark:bg-[#8B0000]/10 dark:text-[#cc4444] dark:hover:bg-[#8B0000]/20"
+                          className="inline-flex items-center gap-1.5 rounded-lg border border-[#8B0000]/35 bg-[#8B0000]/5 px-3 py-1.5 text-[11px] font-semibold text-[#8B0000] no-underline transition-colors hover:bg-[#8B0000]/10 dark:bg-[#8B0000]/10 dark:text-[#cc4444] dark:hover:bg-[#8B0000]/20"
                         >
                           <Globe size={12} /> Live <ArrowUpRight size={10} />
                         </a>
@@ -311,7 +311,7 @@ export function ProjectModal({ project, onClose }) {
                           {project.tags.map((tag) => (
                             <span
                               key={tag}
-                              className="inline-flex items-center gap-1.5 rounded-[6px] border border-dashed border-[#8B0000]/55 bg-white px-2 py-1 text-[10px] font-medium text-zinc-600 dark:border-[#600000] dark:bg-[#111114] dark:text-[#a2a2ab]"
+                              className="inline-flex items-center gap-1.5 chip-dashed rounded-[6px] px-2 py-1 text-[10px] font-medium text-zinc-600 dark:text-[#a2a2ab]"
                             >
                               {TAG_ICONS[tag] || <span className="text-[9px] font-bold text-zinc-500 dark:text-[#666]">#</span>}
                               {tag}
@@ -348,7 +348,7 @@ export function ProjectModal({ project, onClose }) {
                         {section.points?.length > 0 && (
                           <ul className="mb-0 mt-6 grid gap-3 p-0 sm:grid-cols-2">
                             {section.points.map((point) => (
-                              <li key={point} className="flex list-none items-start gap-3 rounded-lg border border-dashed border-[#8B0000]/35 p-3 text-[12px] leading-5 text-zinc-500 dark:border-[#600000] dark:text-[#8b8b95]">
+                              <li key={point} className="flex list-none items-start gap-3 chip rounded-lg p-3 text-[12px] leading-5 text-zinc-500 dark:text-[#8b8b95]">
                                 <span className="mt-2 h-px w-3 shrink-0 bg-[#8B0000]" />
                                 {point}
                               </li>

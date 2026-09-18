@@ -117,6 +117,9 @@ const DotField = memo(({
     const speedInterval = setInterval(updateMouseSpeed, 20);
 
     let frameCount = 0;
+    let settled = false;
+    let gradCache = null;
+    let gradKey = '';
 
     function tick() {
       frameCount++;
@@ -140,12 +143,30 @@ const DotField = memo(({
         glowEl.style.opacity = glowOpacity.current;
       }
 
-      ctx.clearRect(0, 0, w, h);
+      // The gradient only depends on size + colors, so build it when one of
+      // those changes rather than allocating + parsing colors every frame.
+      const key = `${w}|${h}|${p.gradientFrom}|${p.gradientTo}`;
+      const colorsChanged = key !== gradKey;
 
-      const grad = ctx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, p.gradientFrom);
-      grad.addColorStop(1, p.gradientTo);
-      ctx.fillStyle = grad;
+      // Nothing is moving. The only thing that still changes is the sparkle
+      // hash, which advances once every 8 frames — so redraw at 1/8 the rate
+      // and skip the field entirely when sparkle is off.
+      if (settled && eng === 0 && p.waveAmplitude === 0 && !colorsChanged) {
+        if (!p.sparkle || (frameCount & 7) !== 0) {
+          rafRef.current = requestAnimationFrame(tick);
+          return;
+        }
+      }
+
+      if (colorsChanged) {
+        gradKey = key;
+        gradCache = ctx.createLinearGradient(0, 0, w, h);
+        gradCache.addColorStop(0, p.gradientFrom);
+        gradCache.addColorStop(1, p.gradientTo);
+      }
+
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = gradCache;
 
       const cr = p.cursorRadius;
       const crSq = cr * cr;
@@ -154,6 +175,8 @@ const DotField = memo(({
 
       ctx.beginPath();
 
+      let anyMoving = false;
+
       for (let i = 0; i < len; i++) {
         const d = dots[i];
         const dx = m.x - d.ax;
@@ -161,18 +184,19 @@ const DotField = memo(({
         const distSq = dx * dx + dy * dy;
 
         if (distSq < crSq && eng > 0.01) {
-          const dist = Math.sqrt(distSq);
+          const dist = Math.sqrt(distSq) || 1;
+          // dx/dist and dy/dist are cos/sin of the angle — no atan2 needed.
+          const nx = dx / dist;
+          const ny = dy / dist;
           if (isBulge) {
             const t = 1 - dist / cr;
             const push = t * t * p.bulgeStrength * eng;
-            const angle = Math.atan2(dy, dx);
-            d.sx += (d.ax - Math.cos(angle) * push - d.sx) * 0.15;
-            d.sy += (d.ay - Math.sin(angle) * push - d.sy) * 0.15;
+            d.sx += (d.ax - nx * push - d.sx) * 0.15;
+            d.sy += (d.ay - ny * push - d.sy) * 0.15;
           } else {
-            const angle = Math.atan2(dy, dx);
             const move = (500 / dist) * (m.speed * p.cursorForce);
-            d.vx += Math.cos(angle) * -move;
-            d.vy += Math.sin(angle) * -move;
+            d.vx += nx * -move;
+            d.vy += ny * -move;
           }
         } else if (isBulge) {
           d.sx += (d.ax - d.sx) * 0.1;
@@ -186,6 +210,14 @@ const DotField = memo(({
           d.y = d.ay + d.vy;
           d.sx += (d.x - d.sx) * 0.1;
           d.sy += (d.y - d.sy) * 0.1;
+        }
+
+        // Snap out of the asymptotic tail so the field can actually go idle.
+        if (Math.abs(d.sx - d.ax) < 0.02 && Math.abs(d.sy - d.ay) < 0.02) {
+          d.sx = d.ax;
+          d.sy = d.ay;
+        } else {
+          anyMoving = true;
         }
 
         let drawX = d.sx;
@@ -211,6 +243,8 @@ const DotField = memo(({
       }
 
       ctx.fill();
+
+      settled = !anyMoving;
 
       rafRef.current = requestAnimationFrame(tick);
     }

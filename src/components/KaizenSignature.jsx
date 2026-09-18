@@ -3,7 +3,7 @@ import './KaizenSignature.css'
 export function KaizenSignature() {
   return (
     <section
-      className="kaizen-signature structural-grid structural-dashed-t relative mx-auto h-[330px] w-full max-w-[760px] cursor-default overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#8B0000]/45"
+      className="kaizen-signature structural-grid structural-dashed-t relative mx-auto h-[330px] w-full max-w-(--shell) cursor-default overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#8B0000]/45"
       tabIndex={0}
       aria-label="Kaizen: continuous improvement; changing for the better"
     >

@@ -61,7 +61,7 @@ function ExperienceEntry({ exp, index }) {
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
         aria-controls={detailsId}
-        className="group grid w-full cursor-pointer grid-cols-[1fr_auto] text-left sm:grid-cols-[145px_minmax(0,1fr)_64px]"
+        className="group focus-ring grid w-full cursor-pointer grid-cols-[1fr_auto] text-left transition-colors hover:bg-zinc-50/60 dark:hover:bg-white/[0.015] sm:grid-cols-[145px_minmax(0,1fr)_64px]"
       >
         <div className="col-span-2 flex items-center justify-between px-5 pb-3 pt-5 sm:col-span-1 sm:block sm:px-6 sm:py-7">
           <span className="font-mono text-[10px] font-medium tracking-[0.08em] text-[#8B0000] dark:text-[#c44]">
@@ -74,9 +74,9 @@ function ExperienceEntry({ exp, index }) {
 
         <div className="border-t border-dashed border-[#8B0000]/30 px-4 py-5 dark:border-[#600000] sm:border-l sm:border-t-0 sm:px-6 sm:py-7">
           <div className="flex items-start gap-3 sm:gap-4">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-[10px] border border-dashed border-[#8B0000]/45 bg-white dark:border-[#600000] dark:bg-[#111114]">
+            <div className="chip card-raised flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-[10px] bg-white dark:bg-[#111114]">
               {exp.logoType === 'image' ? (
-                <img src={exp.logo} alt="" className="h-7 w-7 object-contain" />
+                <img src={exp.logo} alt="" loading="lazy" decoding="async" className="h-7 w-7 object-contain" />
               ) : (
                 <span className="text-sm font-bold text-[#8B0000] dark:text-[#c44]">{exp.logoInitial}</span>
               )}
@@ -107,7 +107,7 @@ function ExperienceEntry({ exp, index }) {
           <Motion.span
             animate={{ rotate: open ? 180 : 0 }}
             transition={{ duration: 0.28, ease: 'easeInOut' }}
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-dashed border-[#8B0000]/45 text-zinc-400 transition-colors group-hover:border-[#8B0000] group-hover:text-[#8B0000] dark:border-[#600000] dark:text-[#666] dark:group-hover:text-[#c44]"
+            className="chip chip-interactive flex h-8 w-8 items-center justify-center rounded-full text-zinc-400 transition-colors group-hover:text-[#8B0000] dark:text-[#666] dark:group-hover:text-[#c44]"
           >
             <ChevronDown size={14} />
           </Motion.span>
@@ -151,7 +151,7 @@ function ExperienceEntry({ exp, index }) {
 
                 <div className="mt-5 flex flex-wrap gap-2">
                   {exp.skills.map((skill) => (
-                    <span key={skill} className="rounded-[6px] border border-dashed border-[#8B0000]/45 px-2.5 py-1 text-[10px] font-medium text-zinc-500 dark:border-[#600000] dark:text-[#777]">
+                    <span key={skill} className="chip-dashed rounded-[6px] px-2.5 py-1 text-[10px] font-medium text-zinc-500 dark:text-[#777]">
                       {skill}
                     </span>
                   ))}
@@ -170,7 +170,7 @@ export function ExperienceGithub({ theme }) {
   return (
     <>
       <AnimatedRow dotPattern={true} topBorder={true} bottomBorder={false}>
-        <SectionTitle kicker="In practice" title="Experience" />
+        <SectionTitle kicker="In practice" title="Experience" index="04" />
       </AnimatedRow>
 
       <AnimatedRow containerClass="structural-dashed-t structural-grid" bottomBorder={false}>
