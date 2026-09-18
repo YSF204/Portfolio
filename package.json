@@ -9,7 +9,8 @@
     "start:server": "node server/index.js",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node --test server/*.test.js"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

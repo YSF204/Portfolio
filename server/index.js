@@ -2,11 +2,16 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
 import nodemailer from 'nodemailer'
+import { rateLimit, validateContact } from './guards.js'
 
 dotenv.config()
 
 const app = express()
 const port = Number(process.env.PORT) || 8787
+
+// Hosts like Render put a proxy in front, so request.ip is the sender only
+// once Express is told to read X-Forwarded-For.
+app.set('trust proxy', 1)
 
 app.use(
   cors({
@@ -14,8 +19,6 @@ app.use(
   }),
 )
 app.use(express.json())
-
-const messages = []
 
 const buildTransporter = () => {
   const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env
@@ -42,26 +45,16 @@ app.get('/api/health', (_request, response) => {
 })
 
 app.post('/api/contact', async (request, response) => {
-  const { name = '', email = '', message = '' } = request.body || {}
-
-  if (!name.trim() || !email.trim() || !message.trim()) {
-    return response.status(400).json({ error: 'Name, email, and message are required.' })
+  if (!rateLimit(request.ip)) {
+    return response.status(429).json({ error: 'Too many messages. Please try again later.' })
   }
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  if (!emailRegex.test(email)) {
-    return response.status(400).json({ error: 'Please provide a valid email address.' })
-  }
+  const { payload, error, spam } = validateContact(request.body)
 
-  const payload = {
-    id: Date.now(),
-    name: name.trim(),
-    email: email.trim(),
-    message: message.trim(),
-    submittedAt: new Date().toISOString(),
-  }
+  if (error) return response.status(400).json({ error })
 
-  messages.push(payload)
+  // Answer a bot exactly as if it had worked, so it learns nothing.
+  if (spam) return response.status(201).json({ success: true, message: 'Email sent successfully.' })
 
   const transporter = buildTransporter()
 
@@ -87,10 +80,6 @@ app.post('/api/contact', async (request, response) => {
   } catch (error) {
     return response.status(500).json({ error: error.message || 'Failed to process message.' })
   }
-})
-
-app.get('/api/messages', (_request, response) => {
-  response.json({ count: messages.length, messages })
 })
 
 app.listen(port, () => {

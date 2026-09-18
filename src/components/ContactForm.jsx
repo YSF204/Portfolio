@@ -88,6 +88,17 @@ export function ContactForm({ open }) {
                 </Motion.div>
               ) : (
                 <form onSubmit={submit} className="flex flex-col gap-4 px-5 py-5">
+                  {/* Honeypot. Off-screen rather than display:none, which some
+                      bots know to skip, and hidden from screen readers. */}
+                  <input
+                    type="text"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    className="absolute left-[-9999px] h-0 w-0 opacity-0"
+                  />
+
                   {FIELDS.map((field, index) => (
                     <Motion.div
                       key={field.name}
