@@ -30,7 +30,9 @@ const buildTransporter = () => {
     secure: Number(SMTP_PORT) === 465,
     auth: {
       user: SMTP_USER,
-      pass: SMTP_PASS,
+      // Google displays app passwords as four spaced groups; SMTP wants the
+      // bare 16 characters.
+      pass: SMTP_PASS.replace(/\s/g, ''),
     },
   })
 }
@@ -61,22 +63,27 @@ app.post('/api/contact', async (request, response) => {
 
   messages.push(payload)
 
-  try {
-    const transporter = buildTransporter()
+  const transporter = buildTransporter()
 
-    if (transporter) {
-      await transporter.sendMail({
-        from: process.env.SMTP_FROM || process.env.SMTP_USER,
-        to: process.env.CONTACT_TO || process.env.SMTP_USER,
-        subject: `Portfolio contact from ${payload.name}`,
-        text: `Name: ${payload.name}\nEmail: ${payload.email}\n\n${payload.message}`,
-      })
-    }
-
-    return response.status(201).json({
-      success: true,
-      message: transporter ? 'Email sent successfully.' : 'Message received (SMTP not configured).',
+  // Without SMTP the message only ever exists in this process's memory, so say
+  // so instead of reporting success and dropping it.
+  if (!transporter) {
+    return response.status(503).json({
+      error: 'Email delivery is not configured on the server.',
     })
+  }
+
+  try {
+    await transporter.sendMail({
+      from: process.env.SMTP_FROM || process.env.SMTP_USER,
+      to: process.env.CONTACT_TO || process.env.SMTP_USER,
+      // Replying in Gmail goes to the sender, not back to yourself.
+      replyTo: `${payload.name} <${payload.email}>`,
+      subject: `Portfolio contact from ${payload.name}`,
+      text: `Name: ${payload.name}\nEmail: ${payload.email}\n\n${payload.message}`,
+    })
+
+    return response.status(201).json({ success: true, message: 'Email sent successfully.' })
   } catch (error) {
     return response.status(500).json({ error: error.message || 'Failed to process message.' })
   }

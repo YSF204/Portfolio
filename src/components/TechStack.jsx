@@ -20,8 +20,8 @@ export function TechStack() {
   return (
     <>
       <AnimatedRow dotPattern={true} topBorder={true} bottomBorder={false}>
-        <SectionTitle kicker="Featured" title="Tech Stack" />
-        <div className="w-full h-[1px] structural-dashed-b structural-grid relative z-10"></div>
+        <SectionTitle kicker="What I build with" title="Tech Stack" index="02" />
+        <div className="w-full h-[1px] structural-dashed-b structural-grid rail-cross relative z-10"></div>
       </AnimatedRow>
 
       <AnimatedRow bottomBorder={true} containerClass="px-5 sm:px-10 py-8 sm:py-10">
@@ -29,7 +29,7 @@ export function TechStack() {
           {techs.map(({ icon, name }) => (
             <div
               key={name}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] border border-dashed border-[#8B0000]/70 dark:border-[#600000] text-zinc-600 dark:text-[#a2a2ab] text-[12px] font-medium select-none"
+              className="chip-dashed inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] text-zinc-600 dark:text-[#a2a2ab] text-[12px] font-medium select-none"
             >
               {icon}
               {name}
