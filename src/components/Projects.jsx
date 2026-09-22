@@ -115,8 +115,8 @@ const projects = [
     description: 'A full-stack AI application that lets users upload PDF books and have natural voice conversations with their documents using advanced speech synthesis and generative AI.',
     tags: ['Next.js 16', 'TypeScript', 'MongoDB', 'Clerk Authentication', 'Tailwind CSS', 'shadcn/ui', 'Vapi AI', 'ElevenLabs', 'Google Gemini'],
     image: spokenPagesImg,
-    github: '#',
-    live: '#',
+    github: 'https://github.com/YSF204/SpookenPages',
+    live: 'https://spooken-pages.vercel.app/',
   },
   {
     title: 'AI Flash Cards',
